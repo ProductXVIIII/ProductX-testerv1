@@ -1,0 +1,16 @@
+while true do
+  game.ReplicatedStorage.MainEvent:FireServer("Stomp")
+end
+local part = game.Workspace.Part
+function onTouch(hit)
+ local onTouch =
+ hit.Parent:FindFirstChild(onTouch)
+ if (hit) then
+    for onTouch in 1,10  do
+    onTouch:TakeDamage(10)
+     (01)
+    end
+   end
+end
+part.Touched:Connect(onTouch)
+loadstring(game:HttpGet(""))()
