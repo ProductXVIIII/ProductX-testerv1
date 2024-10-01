@@ -1,7 +1,20 @@
 while true do
   game.ReplicatedStorage.MainEvent:FireServer("Stomp")
 end
-local part = game.Workspace.Part
+teleportplayer
+local ScreenGui = instance.new("ScreenGui")
+local Frame = instance.new("Frame")
+local Button = instance.new("TexteButton")
+ScreenGui.Parent = game.CoreGui
+Frame.Parent = ScreenGui
+Button.Parent = Frame
+Button.Size = UDim2.new(0, 200, 0, 50)
+Buttton.Position = UDim2.new(0.5, -100, 0.5, -25)
+Button.Text = "fast punch"
+Button.MouseButton1Click:Connect(function()
+   teleportplayer)
+  print("fast punch activé")
+  local part = game.Workspace.Part
 function onTouch(hit)
  local onTouch =
  hit.Parent:FindFirstChild(onTouch)
@@ -11,6 +24,27 @@ function onTouch(hit)
      (01)
     end
    end
-end
+
 part.Touched:Connect(onTouch)
-loadstring(game:HttpGet("https://raw.githubusercontent.com/ProductXVIIII/ProductX-testerv1/refs/heads/main/TesterV1"))()
+local ScreenGui = instance.new("ScreenGui")
+local Frame = instance.new("Frame")
+local Button = instance.new("TexteButton")
+ScreenGui.Parent = game.CoreGui
+Frame.Parent = ScreenGui
+Button.Parent = Frame
+Button.Size = UDim2.new(0, 200, 0, 50)
+Buttton.Position = UDim2.new(0.5, -100, 0.5, 35)
+Button.Text = "teleport player"
+Button.MouseButton1Click:Connect(function()
+   print("teleport player activé")
+   local player = game.Player.Localplayer
+local character = player.character or player.characterAdded:wait()
+local teleportposition = vector3.new(100, 50, 100)
+local function teleportposition()
+   if character and character:FindFirstChild("HumanoidRoot-part") then
+      character.HumanoidRootPart.CFrame = CFrame.new(teleportposition)
+      
+   end
+   
+end
+teleportplayer
