@@ -1,50 +1,103 @@
-while true do
-  game.ReplicatedStorage.MainEvent:FireServer("Stomp")
+if game.PlaceId == 3623096087 then
 end
-teleportplayer
-local ScreenGui = instance.new("ScreenGui")
-local Frame = instance.new("Frame")
-local Button = instance.new("TexteButton")
-ScreenGui.Parent = game.CoreGui
-Frame.Parent = ScreenGui
-Button.Parent = Frame
-Button.Size = UDim2.new(0, 200, 0, 50)
-Buttton.Position = UDim2.new(0.5, -100, 0.5, -25)
-Button.Text = "fast punch"
-Button.MouseButton1Click:Connect(function()
-   teleportplayer)
-  print("fast punch activé")
-  local part = game.Workspace.Part
-function onTouch(hit)
- local onTouch =
- hit.Parent:FindFirstChild(onTouch)
- if (hit) then
-    for onTouch in 1,10  do
-    onTouch:TakeDamage(10)
-     (01)
-    end
-   end
 
-part.Touched:Connect(onTouch)
-local ScreenGui = instance.new("ScreenGui")
-local Frame = instance.new("Frame")
-local Button = instance.new("TexteButton")
-ScreenGui.Parent = game.CoreGui
-Frame.Parent = ScreenGui
-Button.Parent = Frame
-Button.Size = UDim2.new(0, 200, 0, 50)
-Buttton.Position = UDim2.new(0.5, -100, 0.5, 35)
-Button.Text = "teleport player"
-Button.MouseButton1Click:Connect(function()
-   print("teleport player activé")
-   local player = game.Player.Localplayer
-local character = player.character or player.characterAdded:wait()
-local teleportposition = vector3.new(100, 50, 100)
-local function teleportposition()
-   if character and character:FindFirstChild("HumanoidRoot-part") then
-      character.HumanoidRootPart.CFrame = CFrame.new(teleportposition)
-      
-   end
-   
-end
-teleportplayer
+    
+    local Window = Rayfield:CreateWindow({
+       Name = "Product X",
+       LoadingTitle = "Product Hub",
+       LoadingSubtitle = "by DeLTaVIIII",
+       ConfigurationSaving = {
+          Enabled = false,
+          FolderName = nil,
+          FileName = "Delta project Hub"
+       },
+       Discord = {
+          Enabled = true,
+          Invite = "https://discord.gg/stYePR4G2F",
+          RememberJoins = true
+       },
+       KeySystem = false, 
+       KeySettings = {
+          Title = "Untitled",
+          Subtitle = "Key System",
+          Note = "No method of obtaining the key is provided",
+          FileName = "Key",
+          SaveKey = true,
+          GrabKeyFromSite = false,
+          Key = {"Hello"}
+       }
+    })
+    
+    local MainTab = Window:CreateTab("Home", nil)
+    local MainSection = MainTab:CreateSection("Main")
+    
+    Rayfield:Notify({})
+       Title = "You executed Product X",
+       Content == "Ml gui",
+       Duration == 1.5,
+       Image == Nil,
+       
+    
+          
+             Name == "Okay!","No!"
+             Callback = function()
+                print("The user tapped Okay!")
+             end
+
+
+    local Button = MainTab:CreateButton({
+       Name = "infinite jump",
+       Callback = function()
+local player = game.Players.LocalPlayer
+
+local Slider = MainTab:CreateSlider({
+       Name = "Walkspeed",
+       Range = {0, 10000},
+       Increment = 10,
+       Suffix = "Speed",
+       CurrentValue = 16,
+       Flag = "Slider1", 
+       Callback = function(Value)
+        local UserInputService = game:GetService("UserInputService")
+        local player = game.Players.LocalPlayer
+        local character = player.Character or player.CharacterAdded:Wait()
+        
+        local function onJumpRequest()
+            if character and character:FindFirstChild("Humanoid") then
+                character.Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+            end
+        end
+        
+        UserInputService.JumpRequest:Connect(onJumpRequest)
+        
+       end,
+    })
+    
+    local Dropdown = MainTab:CreateDropdown({
+       Name = "Select Area",
+       Options = {"Muscle king","spawn"},
+       CurrentOption = {"spawn"},
+       MultipleOptions = false,
+       Flag = "teleport",
+       Callback = function(Option)
+            print(Option)
+       end,
+    })
+    
+    local OtherTab = Window:CreateTab("island tp", nil)
+    local Section = island tpTab:CreateSection("islands")
+    
+    local Button = island tpTab:CreateButton({
+       Name = "muscle king",
+       Callback = function()
+           print('muscle king')
+       end,
+    })
+    
+    local Button = island tpTab:CreateButton({
+       Name = "spawn",
+       Callback = function()
+           print('spawn')
+       end,
+    })
+
