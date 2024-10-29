@@ -1,104 +1,63 @@
-if game.PlaceId == 3623096087 then
-loadstring(game:HttpGet("https://raw.githubusercontent.com/ProductXVIIII/ProductX-testerv1/refs/heads/main/TesterV1"))()
-end
+Local player = game.Players.LocalPlayer
 
-    
-    local Window = Rayfield:CreateWindow({
-       Name = "Product X",
-       LoadingTitle = "Product Hub",
-       LoadingSubtitle = "by DeLTaVIIII",
-       ConfigurationSaving = {
-          Enabled = false,
-          FolderName = nil,
-          FileName = "Delta project Hub"
-       },
-       Discord = {
-          Enabled = true,
-          Invite = "https://discord.gg/stYePR4G2F",
-          RememberJoins = true
-       },
-       KeySystem = false, 
-       KeySettings = {
-          Title = "Untitled",
-          Subtitle = "Key System",
-          Note = "No method of obtaining the key is provided",
-          FileName = "Key",
-          SaveKey = true,
-          GrabKeyFromSite = false,
-          Key = {"Hello"}
-       }
-    })
-    
-    local MainTab = Window:CreateTab("Home", nil)
-    local MainSection = MainTab:CreateSection("Main")
-    
-    Rayfield:Notify({})
-       Title = "You executed Product X",
-       Content == "Ml gui",
-       Duration == 1.5,
-       Image == Nil,
-       
-    
-          
-             Name == "Okay!","No!"
-             Callback = function()
-                print("The user tapped Okay!")
-             end
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 
+local Window = OrionLib:MakeWindow({Name = "Product X tester", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
 
-    local Button = MainTab:CreateButton({
-       Name = "infinite jump",
-       Callback = function()
-local player = game.Players.LocalPlayer
+--[[
+Name = <string> - The name of the UI.
+HidePremium = <bool> - Whether or not the user details shows Premium status or not.
+SaveConfig = <bool> - Toggles the config saving in the UI.
+ConfigFolder = <string> - The name of the folder where the configs are saved.
+IntroEnabled = <bool> - Whether or not to show the intro animation.
+IntroText = <string> - Text to show in the intro animation.
+IntroIcon = <string> - URL to the image you want to use in the intro animation.
+Icon = <string> - URL to the image you want displayed on the window.
+CloseCallback = <function> - Function to execute when the window is closed.
+]]
 
-local Slider = MainTab:CreateSlider({
-       Name = "Walkspeed",
-       Range = {0, 10000},
-       Increment = 10,
-       Suffix = "Speed",
-       CurrentValue = 16,
-       Flag = "Slider1", 
-       Callback = function(Value)
-        local UserInputService = game:GetService("UserInputService")
-        local player = game.Players.LocalPlayer
-        local character = player.Character or player.CharacterAdded:Wait()
-        
-        local function onJumpRequest()
-            if character and character:FindFirstChild("Humanoid") then
-                character.Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
-            end
-        end
-        
-        UserInputService.JumpRequest:Connect(onJumpRequest)
-        
-       end,
-    })
-    
-    local Dropdown = MainTab:CreateDropdown({
-       Name = "Select Area",
-       Options = {"Muscle king","spawn"},
-       CurrentOption = {"spawn"},
-       MultipleOptions = false,
-       Flag = "teleport",
-       Callback = function(Option)
-            print(Option)
-       end,
-    })
-    
-    local OtherTab = Window:CreateTab("island tp", nil)
-    local Section = island tpTab:CreateSection("islands")
-    
-    local Button = island tpTab:CreateButton({
-       Name = "muscle king",
-       Callback = function()
-           print('muscle king')
-       end,
-    })
-    
-    local Button = island tpTab:CreateButton({
-       Name = "spawn",
-       Callback = function()
-           print('spawn')
-       end,
-    })
+local Tab = Window:MakeTab({
+	Name = "Tab 1",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
 
+--[[
+Name = <string> - The name of the tab.
+Icon = <string> - The icon of the tab.
+PremiumOnly = <bool> - Makes the tab accessible to Sirus Premium users only.
+]]
+
+local Section = Tab:AddSection({
+	Name = "LocalPlayer"
+})
+
+--[[
+Name = <string> - The name of the section.
+]]
+
+OrionLib:MakeNotification({
+	Name = "Welcome to Product X !",
+	Content = "Notification content... what will it say??",
+	Image = "rbxassetid://4483345998",
+	Time = 5
+})
+
+--[[
+Title = <string> - The title of the notification.
+Content = <string> - The content of the notification.
+Image = <string> - The icon of the notification.
+Time = <number> - The duration of the notfication.
+]]
+
+Tab:AddButton({
+	Name = "Walkspeed",
+	Callback = function()
+      		player.Character.Humanoid.WalkSpeed = 200
+  	end    
+})
+
+--[[
+Name = <string> - The name of the button.
+Callback = <function> - The function of the button.
+]]
