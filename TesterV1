@@ -31,6 +31,25 @@ if game.PlaceId == 3623096087 then
     -- Fonction Fast Punch améliorée
     function fastPunch()
         print("Fast Punch activé")
+        
+        -- Vérifie et définit NumberValue à 0
+        local player = game:GetService("Players").LocalPlayer
+        local backpack = player:FindFirstChild("Backpack")
+        local punchTool = backpack and backpack:FindFirstChild("Punch")
+
+        if punchTool then
+            local numberValue = punchTool:FindFirstChildOfClass("NumberValue")
+            if numberValue then
+                numberValue.Value = 0
+                print("La valeur de Punch a été définie à 0.")
+            else
+                warn("NumberValue introuvable dans Punch.")
+            end
+        else
+            warn("Outil Punch introuvable dans le Backpack.")
+        end
+
+        -- Démarre la boucle de frappe rapide
         spawn(function()
             while getgenv().fastPunch do
                 print("Essai de frapper...")
@@ -80,11 +99,8 @@ if game.PlaceId == 3623096087 then
             while getgenv().autoFarm do
                 local clickRemote = game:GetService("ReplicatedStorage"):FindFirstChild("rEvents"):FindFirstChild("clickRemote")
                 if clickRemote then
-                    local args = {
-                        [1] = "click"
-                    }
                     local success, errorMessage = pcall(function()
-                        clickRemote:InvokeServer(unpack(args))
+                        clickRemote:FireServer()
                     end)
 
                     if not success then
@@ -93,7 +109,7 @@ if game.PlaceId == 3623096087 then
                 else
                     print("Erreur : clickRemote introuvable.")
                 end
-                task.wait(0.1) -- Adjust click speed here (in seconds)
+                task.wait(0.1)
             end
         end)
     end
@@ -196,7 +212,6 @@ if game.PlaceId == 3623096087 then
             local UserInputService = game:GetService("UserInputService")
             local Hooks = {}
 
-            -- Code pour anti-AFK
             for i, v in next, getconnections(UserInputService.WindowFocusReleased) do
                 v:Disable()
             end
