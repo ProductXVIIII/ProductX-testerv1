@@ -182,7 +182,6 @@ AutofarmTab:AddButton({
 Name = <string> - The name of the button.
 Callback = <function>
 ]
-game:GetService("Players").LocalPlayer.Backpack.Punch:FindFirstChildOfClass("NumberValue").Value = 0
 
 end
 OrionLib:Init()
