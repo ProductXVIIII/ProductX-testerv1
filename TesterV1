@@ -105,7 +105,7 @@ if game.PlaceId == 3623096087 then
                     print("Erreur : clickRemote introuvable.")
                 end
                 
-                task.wait(0.1) -- Attendre un court instant avant le prochain clic
+                task.wait(0.5) -- Attendre un court instant avant le prochain clic
             end
         end)
     end
