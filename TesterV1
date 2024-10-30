@@ -302,7 +302,34 @@ Callback = <function> - The function of the button.
 ]]
 
 
+MiscTab:AddButton({
+	Name = "Night Sky",
+	Callback = function()
+      		local Lighting = game:GetService("Lighting")
 
+Lighting.ClockTime = 0
+Lighting.Brightness = 1
+Lighting.OutdoorAmbient = Color3.new(0.1, 0.1, 0.2)
+Lighting.Ambient = Color3.new(0.1, 0.1, 0.2)
+
+
+local colorCorrection = Instance.new("ColorCorrectionEffect")
+colorCorrection.Parent = Lighting
+colorCorrection.TintColor = Color3.new(0.3, 0.3, 0.4)
+colorCorrection.Saturation = -0.2
+colorCorrection.Brightness = -0.1
+
+
+Lighting.FogColor = Color3.new(0, 0, 0.1)
+Lighting.FogEnd = 200 -- Ajuste cette valeur pour changer la distance de la brume
+Lighting.FogStart = 50
+  	end    
+})
+
+--[[
+Name = <string> - The name of the button.
+Callback = <function> - The function of the button.
+]]
 
 
 end
