@@ -32,7 +32,7 @@ if game.PlaceId == 3623096087 then
     -- Fonction Fast Punch améliorée
     function fastPunch()
         print("Fast Punch activé")
-        
+
         -- Vérifie et définit NumberValue à 0 pour Punch
         local player = game:GetService("Players").LocalPlayer
         local backpack = player:FindFirstChild("Backpack")
@@ -77,7 +77,7 @@ if game.PlaceId == 3623096087 then
     -- Fonction Auto Weight
     function autoWeight()
         print("Auto Weight activé")
-        
+
         -- Vérifie et définit NumberValue à 0 pour Weight
         local player = game:GetService("Players").LocalPlayer
         local backpack = player:FindFirstChild("Backpack")
@@ -122,7 +122,7 @@ if game.PlaceId == 3623096087 then
     -- Fonction Night Sky
     function nightSky()
         local Lighting = game:GetService("Lighting")
-        
+
         Lighting.ClockTime = 0
         Lighting.Brightness = 2
         Lighting.OutdoorAmbient = Color3.new(0.3, 0.3, 0.3)
@@ -245,7 +245,7 @@ if game.PlaceId == 3623096087 then
     TeleportTab:AddDropdown({
         Name = "Select Island",
         Default = "Tiny Island",
-        Options = {"Main Island", "Tiny Island", "Frost Island", "Mythical Island","Eternal Island","Legends Island","Muscleking Island"},
+        Options = {"Main Island", "Tiny Island", "Frost Island", "Mythical Island", "Eternal Island", "Legends Island", "Muscleking Island"},
         Callback = function(Value)
             getgenv().selectisland = Value
             print(getgenv().selectisland)
@@ -258,4 +258,29 @@ if game.PlaceId == 3623096087 then
         Options = {"Blue Crystal"},
         Callback = function(Value)
             getgenv().selectcrystal = Value
-            print(getgen
+            print(getgenv().selectcrystal)
+        end
+    })
+
+    -- Anti-AFK
+    MiscTab:AddButton({
+        Name = "Anti AFK",
+        Callback = function()
+            local VirtualInputManager = game:GetService("VirtualInputManager")
+            local UserInputService = game:GetService("UserInputService")
+
+            -- Code pour anti-AFK
+            -- Code pour anti-AFK
+            for i, v in next, game.Players.LocalPlayer.PlayerGui:GetChildren() do
+                if v:IsA("ScreenGui") then
+                    VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.W, false, game)
+                    VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.W, false, game)
+                    task.wait(1)
+                end
+            end
+        end
+    })
+
+    -- Afficher la fenêtre
+    OrionLib:Init()
+end
