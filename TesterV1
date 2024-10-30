@@ -175,43 +175,7 @@ AutofarmTab:AddButton({
 	Name = "Fast Punch",
 	Callback = function()
 
-  local player = game.Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
-local punching = false
-local punchSpeed = 0.1  -- temps en secondes entre les coups de poing
-
-function fastPunch()
-    if punching then return end  -- pour éviter de répéter si déjà en cours
-    punching = true
-    while punching do
-        -- Exécute l'animation du coup de poing ici
-        local punchAnimation = Instance.new("Animation")
-        punchAnimation.AnimationId = "rbxassetid://ID_DE_VOTRE_ANIMATION"
-        local animationTrack = character.Humanoid:LoadAnimation(punchAnimation)
-        animationTrack:Play()
-        
-        -- Ajouter ici des effets visuels ou sons si souhaité
-        
-        wait(punchSpeed)  -- attente avant le prochain coup
-    end
-end
-
-function stopPunch()
-    punching = false
-end
-
--- Associe les touches pour commencer et arrêter le "fast punch"
-player.InputBegan:Connect(function(input)
-    if input.KeyCode == Enum.KeyCode.P then  -- touche P pour commencer
-        fastPunch()
-    end
-end)
-
-player.InputEnded:Connect(function(input)
-    if input.KeyCode == Enum.KeyCode.P then  -- relâchement de P pour arrêter
-        stopPunch()
-    end
-end)
+game:GetService("Players").LocalPlayer.Backpack.Punch:FindFirstChildOfClass("NumberValue").Value = 0.1
 
 
 end
