@@ -8,8 +8,8 @@ if game.PlaceId == 3623096087 then
     getgenv().autohatch = true
     getgenv().selectcrystal = "Blue Crystal"
     getgenv().fastPunch = false
-    getgenv().autoFarm = false
-    getgenv().autoWeight = false
+    getgenv().autoPunch = false
+    getgenv().fastWeight = false
 
     -- Fonction de téléportation
     function teleport()
@@ -57,11 +57,39 @@ if game.PlaceId == 3623096087 then
         end)
     end
 
-    -- Fonction Auto Weight
-    function autoWeight()
-        print("Auto Weight activé")
+    -- Fonction Auto Punch
+    function autoPunch()
+        print("Auto Punch activé")
         spawn(function()
-            while getgenv().autoWeight do
+            while getgenv().autoPunch do
+                print("Auto Punch en cours...")
+                -- Vérifie si le Remote existe avant de l'appeler
+                local swingFistRemote = game:GetService("ReplicatedStorage"):FindFirstChild("rEvents"):FindFirstChild("swingFistRemote")
+                if swingFistRemote then
+                    local args = {
+                        [1] = "swingFist"
+                    }
+                    -- Appel du remote avec un essai pour éviter les erreurs
+                    local success, errorMessage = pcall(function()
+                        swingFistRemote:InvokeServer(unpack(args))
+                    end)
+
+                    if not success then
+                        print("Erreur lors de l'appel de swingFistRemote: " .. errorMessage)
+                    end
+                else
+                    print("Erreur : swingFistRemote introuvable.")
+                end
+                task.wait(0.5) -- Ajuste cette valeur pour la vitesse des coups
+            end
+        end)
+    end
+
+    -- Fonction Fast Weight
+    function fastWeight()
+        print("Fast Weight activé")
+        spawn(function()
+            while getgenv().fastWeight do
                 -- Vérifie si le remote weightRemote existe
                 local weightRemote = game:GetService("ReplicatedStorage"):FindFirstChild("rEvents"):FindFirstChild("weightRemote")
                 if weightRemote then
@@ -80,32 +108,6 @@ if game.PlaceId == 3623096087 then
                     print("Erreur : weightRemote introuvable.")
                 end
                 task.wait(0.5) -- Ajuste cette valeur pour la vitesse de levage
-            end
-        end)
-    end
-
-    -- Fonction Auto Farm (Auto Clicker)
-    function autoFarm()
-        print("Auto Farm activé")
-        spawn(function()
-            while getgenv().autoFarm do
-                -- Vérifie si le remote clickRemote existe
-                local clickRemote = game:GetService("ReplicatedStorage"):FindFirstChild("rEvents"):FindFirstChild("clickRemote")
-                if clickRemote then
-                    -- Essaye d'appeler le remote pour cliquer
-                    local success, errorMessage = pcall(function()
-                        clickRemote:FireServer()  -- Appel de la fonction de clic
-                    end)
-
-                    -- Gestion des erreurs
-                    if not success then
-                        print("Erreur lors de l'appel de clickRemote: " .. errorMessage)
-                    end
-                else
-                    print("Erreur : clickRemote introuvable.")
-                end
-                
-                task.wait(0.5) -- Attendre un court instant avant le prochain clic
             end
         end)
     end
@@ -186,26 +188,26 @@ if game.PlaceId == 3623096087 then
         end
     })
 
-    -- Toggle pour Auto Weight
+    -- Toggle pour Auto Punch
     AutoFarmTab:AddToggle({
-        Name = "Auto Weight",
+        Name = "Auto Punch",
         Default = false,
         Callback = function(value)
-            getgenv().autoWeight = value
+            getgenv().autoPunch = value
             if value then
-                autoWeight()  -- Appelle la fonction autoWeight si activé
+                autoPunch()  -- Appelle la fonction autoPunch si activé
             end
         end
     })
 
-    -- Toggle pour Auto Farm (Auto Clicker)
+    -- Toggle pour Fast Weight
     AutoFarmTab:AddToggle({
-        Name = "Auto Farm",
+        Name = "Fast Weight",
         Default = false,
         Callback = function(value)
-            getgenv().autoFarm = value
+            getgenv().fastWeight = value
             if value then
-                autoFarm()  -- Appelle la fonction autoFarm si activé
+                fastWeight()  -- Appelle la fonction fastWeight si activé
             end
         end
     })
@@ -247,5 +249,4 @@ if game.PlaceId == 3623096087 then
     })
 
     -- Initialiser la librairie Orion
-    OrionLib:Init()
-end
+    OrionLib
