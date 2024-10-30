@@ -29,8 +29,10 @@ if game.PlaceId == 3623096087 then
 
     -- Fonction Fast Punch améliorée
     function fastPunch()
+        print("Fast Punch activé")
         spawn(function()
             while getgenv().fastPunch do
+                print("Essai de frapper...")
                 -- Vérifie si le Remote existe avant de l'appeler
                 local swingFistRemote = game:GetService("ReplicatedStorage"):FindFirstChild("rEvents"):FindFirstChild("swingFistRemote")
                 if swingFistRemote then
