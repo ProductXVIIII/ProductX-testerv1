@@ -171,7 +171,7 @@ Icon = <string>
 PremiumOnly = <bool>
 ]]
 
-Tab:AddButton({
+MiscTab:AddButton({
 	Name = "Anti afk",
 	Callback = function()
       		local VirtualInputManager = Instance.new("VirtualInputManager")
