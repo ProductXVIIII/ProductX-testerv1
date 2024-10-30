@@ -178,10 +178,27 @@ AutofarmTab:AddButton({
   	end    
 })
 
---[[
-Name = <string> - The name of the button.
-Callback = <function>
-]
+PlayerSection:NewToggle('Auto Rebirth','',function(Testing)
+    
+    test = Testing
+    
+    if test == true then
+		local CurrentTool = game.Players.LocalPlayer.Character:FindFirstChildWhichIsA("Tool");
+        
+        repeat wait()            
+
+				local ohString1 = "rebirthRequest"
+
+				game:GetService("ReplicatedStorage").rEvents.rebirthRemote:InvokeServer(ohString1)
+				
+				
+            until test == false
+        
+        end
+    
+    
+ end)
+
 
 end
 OrionLib:Init()
