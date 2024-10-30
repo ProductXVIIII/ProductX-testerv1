@@ -172,33 +172,46 @@ PremiumOnly = <bool>
 ]]
 
 AutofarmTab:AddButton({
-	Name = "Auto rebirth",
+	Name = "Fast Punch",
 	Callback = function()
 
---[[
-Name = <string> - The name of the toggle.
-Default = <bool> - The default value of the toggle.
-Callback = <function> - The function of the toggle.
-]]
-    
-    test = Testing
-    
-    if test == true then
-		local CurrentTool = game.Players.LocalPlayer.Character:FindFirstChildWhichIsA("Tool");
-        
-        repeat wait()            
+  local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local punching = false
+local punchSpeed = 0.1  -- temps en secondes entre les coups de poing
 
-				local ohString1 = "rebirthRequest"
-
-				game:GetService("ReplicatedStorage").rEvents.rebirthRemote:InvokeServer(ohString1)
-				
-				
-            until test == false
+function fastPunch()
+    if punching then return end  -- pour éviter de répéter si déjà en cours
+    punching = true
+    while punching do
+        -- Exécute l'animation du coup de poing ici
+        local punchAnimation = Instance.new("Animation")
+        punchAnimation.AnimationId = "rbxassetid://ID_DE_VOTRE_ANIMATION"
+        local animationTrack = character.Humanoid:LoadAnimation(punchAnimation)
+        animationTrack:Play()
         
-        end
-    
-    
- end)
+        -- Ajouter ici des effets visuels ou sons si souhaité
+        
+        wait(punchSpeed)  -- attente avant le prochain coup
+    end
+end
+
+function stopPunch()
+    punching = false
+end
+
+-- Associe les touches pour commencer et arrêter le "fast punch"
+player.InputBegan:Connect(function(input)
+    if input.KeyCode == Enum.KeyCode.P then  -- touche P pour commencer
+        fastPunch()
+    end
+end)
+
+player.InputEnded:Connect(function(input)
+    if input.KeyCode == Enum.KeyCode.P then  -- relâchement de P pour arrêter
+        stopPunch()
+    end
+end)
 
 
 end
