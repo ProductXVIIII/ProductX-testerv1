@@ -307,22 +307,24 @@ MiscTab:AddButton({
 	Callback = function()
       		local Lighting = game:GetService("Lighting")
 
-local Lighting = game:GetService("Lighting")
+local local Lighting = game:GetService("Lighting")
 
 
 Lighting.ClockTime = 0
 Lighting.Brightness = 0
-Lighting.GlobalShadows = false  -- Désactive les ombres
+Lighting.GlobalShadows = false
 
-
+-- Ajouter une Skybox de nuit
 local sky = Instance.new("Sky")
 sky.Parent = Lighting
-sky.SkyboxBk = "rbxassetid://123456789"
-sky.SkyboxDn = "rbxassetid://123456789"
-sky.SkyboxFt = "rbxassetid://123456789"
-sky.SkyboxLf = "rbxassetid://123456789"
-sky.SkyboxRt = "rbxassetid://123456789"
-sky.SkyboxUp = "rbxassetid://123456789"
+
+-- Exemple d'IDs de skybox de nuit
+sky.SkyboxBk = "rbxassetid://7018684000" 
+sky.SkyboxDn = "rbxassetid://7018684001" 
+sky.SkyboxFt = "rbxassetid://7018684002"  
+sky.SkyboxLf = "rbxassetid://7018684003"    
+sky.SkyboxRt = "rbxassetid://7018684004"   
+sky.SkyboxUp = "rbxassetid://7018684005"   
 
 
 end
