@@ -34,25 +34,14 @@ if game.PlaceId == 3623096087 then
         print("Fast Punch activé")
         spawn(function()
             while getgenv().fastPunch do
-                print("Essai de frapper...")
-                -- Vérifie si le Remote existe avant de l'appeler
-                local swingFistRemote = game:GetService("ReplicatedStorage"):FindFirstChild("rEvents"):FindFirstChild("swingFistRemote")
-                if swingFistRemote then
-                    local args = {
-                        [1] = "swingFist"
-                    }
-                    -- Appel du remote avec un essai pour éviter les erreurs
-                    local success, errorMessage = pcall(function()
-                        swingFistRemote:InvokeServer(unpack(args))
-                    end)
-
-                    if not success then
-                        print("Erreur lors de l'appel de swingFistRemote: " .. errorMessage)
-                    end
+                local punchValue = game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Punch"):FindFirstChildOfClass("NumberValue")
+                if punchValue then
+                    punchValue.Value = 0 -- Réinitialise la valeur à 0 pour accélérer les coups
+                    print("Fast Punch en cours...")
                 else
-                    print("Erreur : swingFistRemote introuvable.")
+                    print("Erreur : Punch introuvable dans le Backpack.")
                 end
-                task.wait(0.5) -- Ajuste cette valeur pour la vitesse des coups
+                task.wait(0.5) -- Fréquence des coups
             end
         end)
     end
@@ -63,13 +52,11 @@ if game.PlaceId == 3623096087 then
         spawn(function()
             while getgenv().autoPunch do
                 print("Auto Punch en cours...")
-                -- Vérifie si le Remote existe avant de l'appeler
                 local swingFistRemote = game:GetService("ReplicatedStorage"):FindFirstChild("rEvents"):FindFirstChild("swingFistRemote")
                 if swingFistRemote then
                     local args = {
                         [1] = "swingFist"
                     }
-                    -- Appel du remote avec un essai pour éviter les erreurs
                     local success, errorMessage = pcall(function()
                         swingFistRemote:InvokeServer(unpack(args))
                     end)
@@ -80,7 +67,7 @@ if game.PlaceId == 3623096087 then
                 else
                     print("Erreur : swingFistRemote introuvable.")
                 end
-                task.wait(0.5) -- Ajuste cette valeur pour la vitesse des clics
+                task.wait(0.5) -- Fréquence des clics
             end
         end)
     end
@@ -90,40 +77,30 @@ if game.PlaceId == 3623096087 then
         print("Fast Weight activé")
         spawn(function()
             while getgenv().fastWeight do
-                -- Vérifie si le remote weightRemote existe
-                local weightRemote = game:GetService("ReplicatedStorage"):FindFirstChild("rEvents"):FindFirstChild("weightRemote")
-                if weightRemote then
-                    local args = {
-                        [1] = "liftWeight"
-                    }
-                    -- Appel du remote avec un essai pour éviter les erreurs
-                    local success, errorMessage = pcall(function()
-                        weightRemote:InvokeServer(unpack(args))
-                    end)
-
-                    if not success then
-                        print("Erreur lors de l'appel de weightRemote: " .. errorMessage)
-                    end
+                local weightValue = game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Weight"):FindFirstChildOfClass("NumberValue")
+                if weightValue then
+                    weightValue.Value = 0 -- Réinitialise la valeur à 0 pour accélérer l’utilisation du poids
+                    print("Fast Weight en cours...")
                 else
-                    print("Erreur : weightRemote introuvable.")
+                    print("Erreur : Weight introuvable dans le Backpack.")
                 end
-                task.wait(0.5) -- Ajuste cette valeur pour la vitesse de levage
+                task.wait(0.5) -- Fréquence de levage
             end
         end)
     end
 
-    -- Fonction Night Sky (Ciel de nuit sans brouillard et sans assombrir le sol)
+    -- Fonction Night Sky
     function nightSky()
         local Lighting = game:GetService("Lighting")
         
-        Lighting.ClockTime = 0 -- Minuit pour un ciel sombre
-        Lighting.Brightness = 2 -- Garder une bonne luminosité au sol
-        Lighting.OutdoorAmbient = Color3.new(0.3, 0.3, 0.3) -- Légère lumière d'ambiance pour ne pas assombrir le sol
-        Lighting.Ambient = Color3.new(0.3, 0.3, 0.3) -- Légère lumière d'ambiance
+        Lighting.ClockTime = 0
+        Lighting.Brightness = 2
+        Lighting.OutdoorAmbient = Color3.new(0.3, 0.3, 0.3)
+        Lighting.Ambient = Color3.new(0.3, 0.3, 0.3)
 
         local sky = Instance.new("Sky")
         sky.Parent = Lighting
-        sky.SkyboxBk = "rbxassetid://6825465291" -- Ciel de nuit noir
+        sky.SkyboxBk = "rbxassetid://6825465291"
         sky.SkyboxDn = "rbxassetid://6825465291"
         sky.SkyboxFt = "rbxassetid://6825465291"
         sky.SkyboxLf = "rbxassetid://6825465291"
@@ -144,14 +121,12 @@ if game.PlaceId == 3623096087 then
 
     local MiscTab = Window:MakeTab({
         Name = "Misc",
-        Icon = "rbxassetid://4483345998",
-        PremiumOnly = false
+        Icon = "rbxassetid://4483345998"
     })
 
     local AutoFarmTab = Window:MakeTab({
         Name = "Auto Farm",
-        Icon = "rbxassetid://4483345998",
-        PremiumOnly = false
+        Icon = "rbxassetid://4483345998"
     })
 
     -- Boutons et Toggle
@@ -176,19 +151,6 @@ if game.PlaceId == 3623096087 then
         end
     })
 
-    -- Slider pour changer la vitesse de marche
-    MiscTab:AddSlider({
-        Name = "Vitesse de marche",
-        Min = 16,
-        Max = 500,
-        Default = 16,
-        Increment = 1,
-        ValueName = "Vitesse",
-        Callback = function(value)
-            game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = value
-        end
-    })
-
     -- Toggle pour Fast Punch
     AutoFarmTab:AddToggle({
         Name = "Fast Punch",
@@ -208,7 +170,7 @@ if game.PlaceId == 3623096087 then
         Callback = function(value)
             getgenv().autoPunch = value
             if value then
-                autoPunch()  -- Appelle la fonction autoPunch si activé
+                autoPunch()
             end
         end
     })
@@ -220,12 +182,12 @@ if game.PlaceId == 3623096087 then
         Callback = function(value)
             getgenv().fastWeight = value
             if value then
-                fastWeight()  -- Appelle la fonction fastWeight si activé
+                fastWeight()
             end
         end
     })
 
-    -- Dropdowns pour sélectionner l'île et les oeufs
+    -- Dropdown pour sélectionner l'île et les oeufs
     TeleportTab:AddDropdown({
         Name = "Select Island",
         Default = "Tiny Island",
@@ -251,13 +213,9 @@ if game.PlaceId == 3623096087 then
         Name = "Anti AFK",
         Callback = function()
             local VirtualInputManager = game:GetService("VirtualInputManager")
-            local UserInputService = game:GetService("UserInputService")
-
-            -- Code pour anti-AFK
             while true do
-
-VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.Unknown, false, game)
-                task.wait(math.random(15, 120)) -- Temps aléatoire avant le prochain envoi d'événement
+                VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.Unknown, false, game)
+                task.wait(math.random(15, 120))
             end
         end
     })
