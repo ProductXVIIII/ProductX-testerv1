@@ -159,6 +159,17 @@ TeleportTab:AddDropdown({
 	end
 })
 
+AutofarmTab = Window:MakeTab({
+	Name = "Auto farm",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
+--[[
+Name = <string>
+Icon = <string>
+PremiumOnly = <bool>
+]]
 
 end
 OrionLib:Init()
