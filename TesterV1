@@ -1,330 +1,129 @@
-if game.placeId == 3623096087 then
-local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
-local Window = OrionLib:MakeWindow({Name = "Product X 💪Muscle Legends", IntroText = "Product X by DeLTaXVIIII", SaveConfig = false, ConfigFolder = "DeLTaXVIIII Coinfig"})
 
---Valus
-getgenv().teleport = true
-getgenv().selectisland = "Tiny Island"
-getgenv().autohatch = true
-getgenv().selectcrystal = "Blue Crystal"
+if game.PlaceId == 3623096087 then
+    local OrionLib = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Orion/main/source'))()
+    local Window = OrionLib:MakeWindow({
+        Name = "Product X 💪Muscle Legends",
+        IntroText = "Product X by DeLTaXVIIII",
+        SaveConfig = false,
+        ConfigFolder = "DeLTaXVIIII Config"
+    })
 
---functions
---[[function mainisland()
-    local args = {
-        [1] = "travelToArea",
-        [2] = workspace:WaitForChild("areaCircles"):WaitForChild("areaCircle")
-    }
-    
-    game:GetService("ReplicatedStorage"):WaitForChild("rEvents"):WaitForChild("areaTravelRemote"):InvokeServer(unpack(args))
-end
+    -- Global Variables
+    getgenv().teleport = true
+    getgenv().selectisland = "Tiny Island"
+    getgenv().autohatch = true
+    getgenv().selectcrystal = "Blue Crystal"
 
-function tinyisland()
-    local args = {
-        [1] = "travelToArea",
-        [2] = workspace:WaitForChild("areaCircles"):WaitForChild("areaCircle")
-    }
-    
-    game:GetService("ReplicatedStorage"):WaitForChild("rEvents"):WaitForChild("areaTravelRemote"):InvokeServer(unpack(args))
-end
-
-function frostisland()
-    local args = {
-        [1] = "travelToArea",
-        [2] = workspace:WaitForChild("areaCircles"):WaitForChild("areaCircle")
-    }
-    
-    game:GetService("ReplicatedStorage"):WaitForChild("rEvents"):WaitForChild("areaTravelRemote"):InvokeServer(unpack(args))
-end
-
-function mythicalisland()
-    local args = {
-        [1] = "travelToArea",
-        [2] = workspace:WaitForChild("areaCircles"):WaitForChild("areaCircle")
-    }
-    
-    game:GetService("ReplicatedStorage"):WaitForChild("rEvents"):WaitForChild("areaTravelRemote"):InvokeServer(unpack(args))
-end
-
-function eternalisland()
-    local args = {
-        [1] = "travelToArea",
-        [2] = workspace:WaitForChild("areaCircles"):WaitForChild("areaCircle")
-    }
-    
-    game:GetService("ReplicatedStorage"):WaitForChild("rEvents"):WaitForChild("areaTravelRemote"):InvokeServer(unpack(args))
-end
-
-function legendsisland()
-    local args = {
-        [1] = "travelToArea",
-        [2] = workspace:WaitForChild("areaCircles"):WaitForChild("areaCircle")
-    }
-    
-    game:GetService("ReplicatedStorage"):WaitForChild("rEvents"):WaitForChild("areaTravelRemote"):InvokeServer(unpack(args))
-end
-
-function musclekingisland()
-    local args = {
-        [1] = "travelToArea",
-        [2] = workspace:WaitForChild("areaCircles"):WaitForChild("areaCircle")
-    }
-    
-    game:GetService("ReplicatedStorage"):WaitForChild("rEvents"):WaitForChild("areaTravelRemote"):InvokeServer(unpack(args))
-end]]
-
-function teleport()
-    local args = {
-        [1] = "travelToArea",
-        [2] = workspace:WaitForChild("areaCircles"):WaitForChild("areaCircle")}
-    game:GetService("ReplicatedStorage"):WaitForChild("rEvents"):WaitForChild("areaTravelRemote"):InvokeServer(getgenv().teleport(args))
-    local args1 = {
-        [1] = "travelToArea",
-        [2] = workspace:WaitForChild("areaCircles"):WaitForChild("areaCircle")}
-    game:GetService("ReplicatedStorage"):WaitForChild("rEvents"):WaitForChild("areaTravelRemote"):InvokeServer(unpack(args1))
-    local args2 = {
-        [1] = "travelToArea",
-        [2] = workspace:WaitForChild("areaCircles"):WaitForChild("areaCircle")}
-    game:GetService("ReplicatedStorage"):WaitForChild("rEvents"):WaitForChild("areaTravelRemote"):InvokeServer(unpack(args2))
-    local args3 = {
-        [1] = "travelToArea",
-        [2] = workspace:WaitForChild("areaCircles"):WaitForChild("areaCircle")}
-    game:GetService("ReplicatedStorage"):WaitForChild("rEvents"):WaitForChild("areaTravelRemote"):InvokeServer(unpack(args3))
-    local args4 = {
-        [1] = "travelToArea",
-        [2] = workspace:WaitForChild("areaCircles"):WaitForChild("areaCircle")}
-    game:GetService("ReplicatedStorage"):WaitForChild("rEvents"):WaitForChild("areaTravelRemote"):InvokeServer(unpack(args4))
-    local args5 = {
-        [1] = "travelToArea",
-        [2] = workspace:WaitForChild("areaCircles"):WaitForChild("areaCircle")}
-    game:GetService("ReplicatedStorage"):WaitForChild("rEvents"):WaitForChild("areaTravelRemote"):InvokeServer(unpack(args5))
-    local args6 = {
-        [1] = "travelToArea",
-        [2] = workspace:WaitForChild("areaCircles"):WaitForChild("areaCircle")}
-    game:GetService("ReplicatedStorage"):WaitForChild("rEvents"):WaitForChild("areaTravelRemote"):InvokeServer(unpack(args6))
-end
-
-function autohatch()
-    local args = {
-        [1] = "openCrystal",
-        [2] = "Blue Crystal"}
-    game:GetService("ReplicatedStorage"):WaitForChild("rEvents"):WaitForChild("openCrystalRemote"):InvokeServer(unpack(args))
-end
-
---Taps
-local TeleportTab = Window:MakeTab({
-	Name = "Teleport",
-	Icon = "rbxassetid://4483345998"
-})
-
-local EggsTab = Window:MakeTab({
-	Name = "Eggs",
-	Icon = "rbxassetid://4483345998"
-})
-
---Buttons
-TeleportTab:AddButton({
-	Name = "Teleport",
-	Callback = function(Value)
-    getgenv().teleport = Value
-    teleport()
-  	end    
-})
-
-EggsTab:AddButton({
-	Name = "Auto Hatch",
-	Callback = function(Value)
-    getgenv().autohatch = Value
-    autohatch()
-  	end
-})
-
---Dropdowns
-TeleportTab:AddDropdown({
-	Name = "Select Island",
-	Default = "Tiny Island",
-	Options = {"Main Island", "Tiny Island", "Frost Island", "Mythical Island","Eternal Island","Legends Island","Muscleking Island",},
-	Callback = function(Value)
-    getgenv().selectisland = Value
-    print(getgenv().selectisland)
-	end
-})
-
-EggsTab:AddDropdown({
-	Name = "Select Egg",
-	Default = "Blue Crystal",
-	Options = {"Blua Crystal",},
-	Callback = function(Value)
-    getgenv().autohatch = Value
-    print(getgenv().selectcrystal)
-	end
-})
-
-MiscTab = Window:MakeTab({
-	Name = "Misc",
-	Icon = "rbxassetid://4483345998",
-	PremiumOnly = false
-})
-
---[[
-Name = <string>
-Icon = <string>
-PremiumOnly = <bool>
-]]
-
-MiscTab:AddButton({
-	Name = "Anti afk",
-	Callback = function()
-      		local VirtualInputManager = Instance.new("VirtualInputManager")
-local UserInputService = game:GetService("UserInputService")
-local Hooks = {}
-
-local function TrueString(String)
-    if type(String) ~= "string" then
-        return false
+    -- Functions
+    function teleport()
+        local args = {
+            [1] = "travelToArea",
+            [2] = workspace:WaitForChild("areaCircles"):WaitForChild("areaCircle")
+        }
+        game:GetService("ReplicatedStorage"):WaitForChild("rEvents"):WaitForChild("areaTravelRemote"):InvokeServer(unpack(args))
     end
 
-    return (string.split(String, "\0"))[1]
-end
+    function autohatch()
+        local args = {
+            [1] = "openCrystal",
+            [2] = getgenv().selectcrystal
+        }
+        game:GetService("ReplicatedStorage"):WaitForChild("rEvents"):WaitForChild("openCrystalRemote"):InvokeServer(unpack(args))
+    end
 
-local function SortArguments(self, ...)
-    return self, {...}
-end
+    -- Tabs and UI Elements
+    local TeleportTab = Window:MakeTab({
+        Name = "Teleport",
+        Icon = "rbxassetid://4483345998"
+    })
 
-local function hookGetSerivce(...)
-    local OldGetService; OldGetService = function(...)
-        local self, Index = ...
-        local Response = OldGetService(...)
-    
-        if type(Index) == "string" and TrueString(Index) == "VirtualInputManager" then
-            error(("'%s' is not a valid Service name"):format(TrueString(Index)))
-            return;
+    local EggsTab = Window:MakeTab({
+        Name = "Eggs",
+        Icon = "rbxassetid://4483345998"
+    })
+
+    -- Teleport Button
+    TeleportTab:AddButton({
+        Name = "Teleport",
+        Callback = function()
+            teleport()
         end
-    
-        return Response
-    end
-end
+    })
 
-local OldFindService = hookfunction(game.FindService, function(...)
-    local self, Index = ...
-    local Response = OldFindService(...)
-
-    if type(Index) == "string" and TrueString(Index) == "VirtualInputManager" then
-        return;
-    end
-
-    return Response
-end)
-
-hookGetSerivce(game.GetService)
-hookGetSerivce(game.getService)
-hookGetSerivce(game.service)
-
-local OldNamecall; OldNamecall = hookmetamethod(game, "__namecall", function(...)
-    local self, Arguments = SortArguments(...)
-    local Method = getnamecallmethod()
-
-    if typeof(self) == "Instance" and self == game and Method:lower():match("service") and TrueString(Arguments[1]) == "VirtualInputManager" then
-        if Method == "FindService" then
-            return;
+    -- Auto Hatch Button
+    EggsTab:AddButton({
+        Name = "Auto Hatch",
+        Callback = function()
+            autohatch()
         end
+    })
 
-        local Success, Error = pcall(function()
-            setnamecallmethod(Method)
-            game[Method](game, "VirtualFuckOff")
-        end)
-
-        if not Error:match("is not a valid member") then
-            error(Error:replace("VirtualFuckOff", "VirtualInputManager"))
-            return;
+    -- Island Selection Dropdown
+    TeleportTab:AddDropdown({
+        Name = "Select Island",
+        Default = "Tiny Island",
+        Options = {"Main Island", "Tiny Island", "Frost Island", "Mythical Island", "Eternal Island", "Legends Island", "Muscleking Island"},
+        Callback = function(Value)
+            getgenv().selectisland = Value
+            print("Selected Island:", Value)
         end
-    end
+    })
 
-    return OldNamecall(...)
-end)
+    -- Egg Selection Dropdown
+    EggsTab:AddDropdown({
+        Name = "Select Egg",
+        Default = "Blue Crystal",
+        Options = {"Blue Crystal"},
+        Callback = function(Value)
+            getgenv().selectcrystal = Value
+            print("Selected Crystal:", Value)
+        end
+    })
 
-local OldWindow; OldWindow = hookmetamethod(UserInputService.WindowFocused, "__index", function(...)
-    local self, Index = ...
-    local Response = OldWindow(...)
+    -- Miscellaneous Tab
+    local MiscTab = Window:MakeTab({
+        Name = "Misc",
+        Icon = "rbxassetid://4483345998"
+    })
 
-    if type(Response) ~= "function" and (tostring(self):find("WindowFocused") or tostring(self):find("WindowFocusReleased")) and not table.find(Hooks, Response) then
-        table.insert(Hooks, Response)
-
-        if Index:lower() == "wait" then
-            local Old2; Old2 = hookfunction(Response, function(...)
-                local self1 = ...
-
-                if self1 == self then
-                    self1 = Instance.new("BindableEvent").Event
-                end
-
-                return Old2(self1)
-            end)
-        elseif Index:lower() == "connect" then
-            local Old2; Old2 = hookfunction(Response, function(...)
-                local self1, Function = ...
-
-                if self1 == self then
-                    Function = function() return; end
-                end
-
-                return Old2(self1, Function)
+    -- Anti-AFK Button
+    MiscTab:AddButton({
+        Name = "Anti AFK",
+        Callback = function()
+            local VirtualUser = game:service'VirtualUser'
+            game:GetService("Players").LocalPlayer.Idled:connect(function()
+                VirtualUser:CaptureController()
+                VirtualUser:ClickButton2(Vector2.new())
             end)
         end
-    end
+    })
 
-    return Response
-end)
+    -- Night Sky Button
+    MiscTab:AddButton({
+        Name = "Night Sky",
+        Callback = function()
+            local Lighting = game:GetService("Lighting")
 
-for i, v in next, getconnections(UserInputService.WindowFocusReleased) do
-    v:Disable()
-end
+            -- Set Nighttime Settings
+            Lighting.ClockTime = 0
+            Lighting.Brightness = 1
+            Lighting.OutdoorAmbient = Color3.new(0.1, 0.1, 0.2)
+            Lighting.Ambient = Color3.new(0.1, 0.1, 0.2)
 
-for i, v in next, getconnections(UserInputService.WindowFocused) do
-    v:Disable()
-end
+            -- Add Color Correction Effect for Night Look
+            local colorCorrection = Instance.new("ColorCorrectionEffect")
+            colorCorrection.Parent = Lighting
+            colorCorrection.TintColor = Color3.new(0.3, 0.3, 0.4)
+            colorCorrection.Saturation = -0.2
+            colorCorrection.Brightness = -0.1
 
-if not iswindowactive() and not getgenv().WindowFocused then
-    firesignal(UserInputService.WindowFocused)
-    getgenv().WindowFocused = true
-end
+            -- Adjust Fog for Nighttime Atmosphere
+            Lighting.FogColor = Color3.new(0, 0, 0.1)
+            Lighting.FogEnd = 1000
+            Lighting.FogStart = 200
+        end
+    })
 
-while true do
-    VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.Unknown, false, game)
-
-    task.wait(Random.new():NextNumber(15, 120))
-end
-  	end    
-})
-
---[[
-Name = <string> - The name of the button.
-Callback = <function> - The function of the button.
-]]
-
-
-MiscTab:AddButton({
-	Name = "Night Sky",
-	Callback = function()
-      		local Lighting = game:GetService("Lighting")
-
-
-Lighting.ClockTime = 0
-Lighting.Brightness = 1
-Lighting.OutdoorAmbient = Color3.new(0.1, 0.1, 0.2)
-Lighting.Ambient = Color3.new(0.1, 0.1, 0.2)
-
-
-local colorCorrection = Instance.new("ColorCorrectionEffect")
-colorCorrection.Parent = Lighting
-colorCorrection.TintColor = Color3.new(0.3, 0.3, 0.4)
-colorCorrection.Saturation = -0.2
-colorCorrection.Brightness = -0.1
-
-
-Lighting.FogColor = Color3.new(0, 0, 0.1)
-Lighting.FogEnd = 0 
-Lighting.FogStart = 0     
-
-
-end
-OrionLib:Init()
+    -- Initialize Orion Library
+    OrionLib:Init()
+end 
