@@ -149,7 +149,7 @@ TeleportTab:AddDropdown({
 	end
 })
 
-TeleportTab:AddDropdown({
+EggsTab:AddDropdown({
 	Name = "Select Egg",
 	Default = "Blue Crystal",
 	Options = {"Blua Crystal",},
@@ -175,7 +175,8 @@ AutofarmTab:AddButton({
 	Name = "Fast Punch",
 	Callback = function()
 
-game:GetService("Players").LocalPlayer.Backpack.Punch:FindFirstChildOfClass("NumberValue").Value = 0.1
+
+
 
 
 end
