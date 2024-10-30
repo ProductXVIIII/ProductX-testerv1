@@ -1,24 +1,22 @@
-
 if game.PlaceId == 3623096087 then
     local OrionLib = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Orion/main/source'))()
     local Window = OrionLib:MakeWindow({
         Name = "Product X 💪Muscle Legends",
         IntroText = "Product X by DeLTaXVIIII",
         SaveConfig = false,
-        ConfigFolder = "DeLTaXVIIII Config"
+        ConfigFolder = "DeLTaXVIIII_Config"
     })
 
     -- Global Variables
-    getgenv().teleport = true
     getgenv().selectisland = "Tiny Island"
-    getgenv().autohatch = true
     getgenv().selectcrystal = "Blue Crystal"
 
     -- Functions
     function teleport()
+        local island = getgenv().selectisland
         local args = {
             [1] = "travelToArea",
-            [2] = workspace:WaitForChild("areaCircles"):WaitForChild("areaCircle")
+            [2] = workspace:WaitForChild("areaCircles"):FindFirstChild(island)
         }
         game:GetService("ReplicatedStorage"):WaitForChild("rEvents"):WaitForChild("areaTravelRemote"):InvokeServer(unpack(args))
     end
@@ -90,7 +88,7 @@ if game.PlaceId == 3623096087 then
     MiscTab:AddButton({
         Name = "Anti AFK",
         Callback = function()
-            local VirtualUser = game:service'VirtualUser'
+            local VirtualUser = game:GetService("VirtualUser")
             game:GetService("Players").LocalPlayer.Idled:connect(function()
                 VirtualUser:CaptureController()
                 VirtualUser:ClickButton2(Vector2.new())
@@ -126,4 +124,4 @@ if game.PlaceId == 3623096087 then
 
     -- Initialize Orion Library
     OrionLib:Init()
-end 
+end
