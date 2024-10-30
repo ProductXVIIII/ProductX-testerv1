@@ -32,33 +32,16 @@ if game.PlaceId == 3623096087 then
     -- Fonction Fast Punch améliorée
     function fastPunch()
         print("Fast Punch activé")
-
-        -- Vérifie et définit NumberValue à 0 pour Punch
-        local player = game:GetService("Players").LocalPlayer
-        local backpack = player:FindFirstChild("Backpack")
-        local punchTool = backpack and backpack:FindFirstChild("Punch")
-
-        if punchTool then
-            local numberValue = punchTool:FindFirstChildOfClass("NumberValue")
-            if numberValue then
-                numberValue.Value = 0
-                print("La valeur de Punch a été définie à 0.")
-            else
-                warn("NumberValue introuvable dans Punch.")
-            end
-        else
-            warn("Outil Punch introuvable dans le Backpack.")
-        end
-
-        -- Démarre la boucle de frappe rapide
         spawn(function()
             while getgenv().fastPunch do
                 print("Essai de frapper...")
+                -- Vérifie si le Remote existe avant de l'appeler
                 local swingFistRemote = game:GetService("ReplicatedStorage"):FindFirstChild("rEvents"):FindFirstChild("swingFistRemote")
                 if swingFistRemote then
                     local args = {
                         [1] = "swingFist"
                     }
+                    -- Appel du remote avec un essai pour éviter les erreurs
                     local success, errorMessage = pcall(function()
                         swingFistRemote:InvokeServer(unpack(args))
                     end)
@@ -69,7 +52,7 @@ if game.PlaceId == 3623096087 then
                 else
                     print("Erreur : swingFistRemote introuvable.")
                 end
-                task.wait(0.5)
+                task.wait(0.5) -- Ajuste cette valeur pour la vitesse des coups
             end
         end)
     end
@@ -77,65 +60,28 @@ if game.PlaceId == 3623096087 then
     -- Fonction Auto Weight
     function autoWeight()
         print("Auto Weight activé")
-
-        -- Vérifie et définit NumberValue à 0 pour Weight
-        local player = game:GetService("Players").LocalPlayer
-        local backpack = player:FindFirstChild("Backpack")
-        local weightTool = backpack and backpack:FindFirstChild("Weight")
-
-        if weightTool then
-            local numberValue = weightTool:FindFirstChildOfClass("NumberValue")
-            if numberValue then
-                numberValue.Value = 0
-                print("La valeur de Weight a été définie à 0.")
-            else
-                warn("NumberValue introuvable dans Weight.")
-            end
-        else
-            warn("Outil Weight introuvable dans le Backpack.")
-        end
-
-        -- Démarre la boucle de levage de poids
         spawn(function()
             while getgenv().autoWeight do
-                print("Essai de lever le poids...")
-                local liftWeightRemote = game:GetService("ReplicatedStorage"):FindFirstChild("rEvents"):FindFirstChild("liftWeightRemote")
-                if liftWeightRemote then
+                -- Vérifie si le remote weightRemote existe
+                local weightRemote = game:GetService("ReplicatedStorage"):FindFirstChild("rEvents"):FindFirstChild("weightRemote")
+                if weightRemote then
                     local args = {
                         [1] = "liftWeight"
                     }
+                    -- Appel du remote avec un essai pour éviter les erreurs
                     local success, errorMessage = pcall(function()
-                        liftWeightRemote:InvokeServer(unpack(args))
+                        weightRemote:InvokeServer(unpack(args))
                     end)
 
                     if not success then
-                        print("Erreur lors de l'appel de liftWeightRemote: " .. errorMessage)
+                        print("Erreur lors de l'appel de weightRemote: " .. errorMessage)
                     end
                 else
-                    print("Erreur : liftWeightRemote introuvable.")
+                    print("Erreur : weightRemote introuvable.")
                 end
-                task.wait(0.5)
+                task.wait(0.5) -- Ajuste cette valeur pour la vitesse de levage
             end
         end)
-    end
-
-    -- Fonction Night Sky
-    function nightSky()
-        local Lighting = game:GetService("Lighting")
-
-        Lighting.ClockTime = 0
-        Lighting.Brightness = 2
-        Lighting.OutdoorAmbient = Color3.new(0.3, 0.3, 0.3)
-        Lighting.Ambient = Color3.new(0.3, 0.3, 0.3)
-
-        local sky = Instance.new("Sky")
-        sky.Parent = Lighting
-        sky.SkyboxBk = "rbxassetid://6825465291"
-        sky.SkyboxDn = "rbxassetid://6825465291"
-        sky.SkyboxFt = "rbxassetid://6825465291"
-        sky.SkyboxLf = "rbxassetid://6825465291"
-        sky.SkyboxRt = "rbxassetid://6825465291"
-        sky.SkyboxUp = "rbxassetid://6825465291"
     end
 
     -- Fonction Auto Farm (Auto Clicker)
@@ -143,21 +89,44 @@ if game.PlaceId == 3623096087 then
         print("Auto Farm activé")
         spawn(function()
             while getgenv().autoFarm do
+                -- Vérifie si le remote clickRemote existe
                 local clickRemote = game:GetService("ReplicatedStorage"):FindFirstChild("rEvents"):FindFirstChild("clickRemote")
                 if clickRemote then
+                    -- Essaye d'appeler le remote pour cliquer
                     local success, errorMessage = pcall(function()
-                        clickRemote:FireServer()
+                        clickRemote:FireServer()  -- Appel de la fonction de clic
                     end)
 
+                    -- Gestion des erreurs
                     if not success then
                         print("Erreur lors de l'appel de clickRemote: " .. errorMessage)
                     end
                 else
                     print("Erreur : clickRemote introuvable.")
                 end
-                task.wait(0.1)
+                
+                task.wait(0.1) -- Attendre un court instant avant le prochain clic
             end
         end)
+    end
+
+    -- Fonction Night Sky (Ciel de nuit sans brouillard et sans assombrir le sol)
+    function nightSky()
+        local Lighting = game:GetService("Lighting")
+        
+        Lighting.ClockTime = 0 -- Minuit pour un ciel sombre
+        Lighting.Brightness = 2 -- Garder une bonne luminosité au sol
+        Lighting.OutdoorAmbient = Color3.new(0.3, 0.3, 0.3) -- Légère lumière d'ambiance pour ne pas assombrir le sol
+        Lighting.Ambient = Color3.new(0.3, 0.3, 0.3) -- Légère lumière d'ambiance
+
+        local sky = Instance.new("Sky")
+        sky.Parent = Lighting
+        sky.SkyboxBk = "rbxassetid://6825465291" -- Ciel de nuit noir
+        sky.SkyboxDn = "rbxassetid://6825465291"
+        sky.SkyboxFt = "rbxassetid://6825465291"
+        sky.SkyboxLf = "rbxassetid://6825465291"
+        sky.SkyboxRt = "rbxassetid://6825465291"
+        sky.SkyboxUp = "rbxassetid://6825465291"
     end
 
     -- Création des onglets
@@ -217,18 +186,6 @@ if game.PlaceId == 3623096087 then
         end
     })
 
-    -- Toggle pour Auto Farm (Auto Clicker)
-    AutoFarmTab:AddToggle({
-        Name = "Auto Farm",
-        Default = false,
-        Callback = function(value)
-            getgenv().autoFarm = value
-            if value then
-                autoFarm()
-            end
-        end
-    })
-
     -- Toggle pour Auto Weight
     AutoFarmTab:AddToggle({
         Name = "Auto Weight",
@@ -236,7 +193,19 @@ if game.PlaceId == 3623096087 then
         Callback = function(value)
             getgenv().autoWeight = value
             if value then
-                autoWeight()
+                autoWeight()  -- Appelle la fonction autoWeight si activé
+            end
+        end
+    })
+
+    -- Toggle pour Auto Farm (Auto Clicker)
+    AutoFarmTab:AddToggle({
+        Name = "Auto Farm",
+        Default = false,
+        Callback = function(value)
+            getgenv().autoFarm = value
+            if value then
+                autoFarm()  -- Appelle la fonction autoFarm si activé
             end
         end
     })
@@ -245,7 +214,7 @@ if game.PlaceId == 3623096087 then
     TeleportTab:AddDropdown({
         Name = "Select Island",
         Default = "Tiny Island",
-        Options = {"Main Island", "Tiny Island", "Frost Island", "Mythical Island", "Eternal Island", "Legends Island", "Muscleking Island"},
+        Options = {"Main Island", "Tiny Island", "Frost Island", "Mythical Island","Eternal Island","Legends Island","Muscleking Island"},
         Callback = function(Value)
             getgenv().selectisland = Value
             print(getgenv().selectisland)
@@ -270,17 +239,13 @@ if game.PlaceId == 3623096087 then
             local UserInputService = game:GetService("UserInputService")
 
             -- Code pour anti-AFK
-            -- Code pour anti-AFK
-            for i, v in next, game.Players.LocalPlayer.PlayerGui:GetChildren() do
-                if v:IsA("ScreenGui") then
-                    VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.W, false, game)
-                    VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.W, false, game)
-                    task.wait(1)
-                end
+            while true do
+                VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.Unknown, false, game)
+                task.wait(math.random(15, 120)) -- Temps aléatoire avant le prochain envoi d'événement
             end
         end
     })
 
-    -- Afficher la fenêtre
+    -- Initialiser la librairie Orion
     OrionLib:Init()
 end
