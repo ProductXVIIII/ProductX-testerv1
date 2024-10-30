@@ -108,6 +108,17 @@ if game.PlaceId == 3623096087 then
         sky.SkyboxUp = "rbxassetid://6825465291"
     end
 
+    -- Fonction pour changer la vitesse de marche
+    function changeSpeed(value)
+        local speed = tonumber(value) -- Convertit la valeur du TextBox en nombre
+        if speed and speed >= 16 and speed <= 1000 then -- Vérifie si la vitesse est dans la plage valide
+            game:GetService("Players").LocalPlayer.Character.Humanoid.WalkSpeed = speed
+            print("Vitesse de marche définie sur : " .. speed)
+        else
+            print("Erreur : La vitesse doit être entre 16 et 1000.")
+        end
+    end
+
     -- Création des onglets
     local TeleportTab = Window:MakeTab({
         Name = "Teleport",
@@ -148,6 +159,16 @@ if game.PlaceId == 3623096087 then
         Name = "Night Sky",
         Callback = function()
             nightSky()
+        end
+    })
+
+    -- Champ de texte pour changer la vitesse de marche
+    MiscTab:AddTextbox({
+        Name = "Speed (limite 1000)",
+        Default = "16", -- Valeur par défaut
+        TextDisappear = false, -- Le texte ne disparaît pas après l'entrée
+        Callback = function(value)
+            changeSpeed(value) -- Appelle la fonction pour changer la vitesse de marche
         end
     })
 
