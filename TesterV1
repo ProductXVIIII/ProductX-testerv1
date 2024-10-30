@@ -9,6 +9,7 @@ if game.PlaceId == 3623096087 then
     getgenv().selectcrystal = "Blue Crystal"
     getgenv().fastPunch = false
     getgenv().autoFarm = false
+    getgenv().autoWeight = false
 
     -- Fonction de téléportation
     function teleport()
@@ -32,7 +33,7 @@ if game.PlaceId == 3623096087 then
     function fastPunch()
         print("Fast Punch activé")
         
-        -- Vérifie et définit NumberValue à 0
+        -- Vérifie et définit NumberValue à 0 pour Punch
         local player = game:GetService("Players").LocalPlayer
         local backpack = player:FindFirstChild("Backpack")
         local punchTool = backpack and backpack:FindFirstChild("Punch")
@@ -67,6 +68,51 @@ if game.PlaceId == 3623096087 then
                     end
                 else
                     print("Erreur : swingFistRemote introuvable.")
+                end
+                task.wait(0.5)
+            end
+        end)
+    end
+
+    -- Fonction Auto Weight
+    function autoWeight()
+        print("Auto Weight activé")
+        
+        -- Vérifie et définit NumberValue à 0 pour Weight
+        local player = game:GetService("Players").LocalPlayer
+        local backpack = player:FindFirstChild("Backpack")
+        local weightTool = backpack and backpack:FindFirstChild("Weight")
+
+        if weightTool then
+            local numberValue = weightTool:FindFirstChildOfClass("NumberValue")
+            if numberValue then
+                numberValue.Value = 0
+                print("La valeur de Weight a été définie à 0.")
+            else
+                warn("NumberValue introuvable dans Weight.")
+            end
+        else
+            warn("Outil Weight introuvable dans le Backpack.")
+        end
+
+        -- Démarre la boucle de levage de poids
+        spawn(function()
+            while getgenv().autoWeight do
+                print("Essai de lever le poids...")
+                local liftWeightRemote = game:GetService("ReplicatedStorage"):FindFirstChild("rEvents"):FindFirstChild("liftWeightRemote")
+                if liftWeightRemote then
+                    local args = {
+                        [1] = "liftWeight"
+                    }
+                    local success, errorMessage = pcall(function()
+                        liftWeightRemote:InvokeServer(unpack(args))
+                    end)
+
+                    if not success then
+                        print("Erreur lors de l'appel de liftWeightRemote: " .. errorMessage)
+                    end
+                else
+                    print("Erreur : liftWeightRemote introuvable.")
                 end
                 task.wait(0.5)
             end
@@ -183,6 +229,18 @@ if game.PlaceId == 3623096087 then
         end
     })
 
+    -- Toggle pour Auto Weight
+    AutoFarmTab:AddToggle({
+        Name = "Auto Weight",
+        Default = false,
+        Callback = function(value)
+            getgenv().autoWeight = value
+            if value then
+                autoWeight()
+            end
+        end
+    })
+
     -- Dropdowns pour sélectionner l'île et les oeufs
     TeleportTab:AddDropdown({
         Name = "Select Island",
@@ -200,32 +258,4 @@ if game.PlaceId == 3623096087 then
         Options = {"Blue Crystal"},
         Callback = function(Value)
             getgenv().selectcrystal = Value
-            print(getgenv().selectcrystal)
-        end
-    })
-
-    -- Anti-AFK
-    MiscTab:AddButton({
-        Name = "Anti afk",
-        Callback = function()
-            local VirtualInputManager = game:GetService("VirtualInputManager")
-            local UserInputService = game:GetService("UserInputService")
-            local Hooks = {}
-
-            for i, v in next, getconnections(UserInputService.WindowFocusReleased) do
-                v:Disable()
-            end
-            for i, v in next, getconnections(UserInputService.WindowFocused) do
-                v:Disable()
-            end
-
-            while true do
-                VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.Unknown, false, game)
-                task.wait(Random.new():NextNumber(15, 120))
-            end
-        end
-    })
-
-    -- Initialiser la librairie Orion
-    OrionLib:Init()
-end
+            print(getgen
