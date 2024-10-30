@@ -7,7 +7,7 @@ if game.PlaceId == 3623096087 then
     getgenv().selectisland = "Tiny Island"
     getgenv().autohatch = true
     getgenv().selectcrystal = "Blue Crystal"
-    getgenv().fastPunch = true
+    getgenv().fastPunch = false
 
     -- Fonction de téléportation
     function teleport()
@@ -39,11 +39,18 @@ if game.PlaceId == 3623096087 then
                     local args = {
                         [1] = "swingFist"
                     }
-                    swingFistRemote:InvokeServer(unpack(args))
+                    -- Appel du remote avec un essai pour éviter les erreurs
+                    local success, errorMessage = pcall(function()
+                        swingFistRemote:InvokeServer(unpack(args))
+                    end)
+
+                    if not success then
+                        print("Erreur lors de l'appel de swingFistRemote: " .. errorMessage)
+                    end
                 else
                     print("Erreur : swingFistRemote introuvable.")
                 end
-                task.wait(0.1) -- Ajuste cette valeur pour la vitesse des coups
+                task.wait(0.5) -- Ajuste cette valeur pour la vitesse des coups
             end
         end)
     end
