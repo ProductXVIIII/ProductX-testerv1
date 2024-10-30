@@ -1,59 +1,63 @@
 if game.PlaceId == 3623096087 then
-    local OrionLib = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Orion/main/source'))()
-    local Window = OrionLib:MakeWindow({
-        Name = "Product X 💪Muscle Legends",
-        IntroText = "Product X by DeLTaXVIIII",
-        SaveConfig = false,
-        ConfigFolder = "DeLTaXVIIII_Config"
-    })
+    local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+    local Window = OrionLib:MakeWindow({Name = "Product X 💪Muscle Legends", IntroText = "Product X by DeLTaXVIIII", SaveConfig = false, ConfigFolder = "DeLTaXVIIII Coinfig"})
 
-    -- Variables Globales
+    -- Valus
+    getgenv().teleport = true
     getgenv().selectisland = "Tiny Island"
+    getgenv().autohatch = true
     getgenv().selectcrystal = "Blue Crystal"
+    getgenv().fastPunch = false
 
     -- Fonction de téléportation
     function teleport()
-        local selectedIsland = getgenv().selectisland
-        local areaCircle = workspace:WaitForChild("areaCircles"):FindFirstChild(selectedIsland)
-
-        if areaCircle then
-            local args = {
-                [1] = "travelToArea",
-                [2] = areaCircle
-            }
-            game:GetService("ReplicatedStorage"):WaitForChild("rEvents"):WaitForChild("areaTravelRemote"):InvokeServer(unpack(args))
-        else
-            warn("L'île sélectionnée n'existe pas : " .. tostring(selectedIsland))
-        end
+        local args = {
+            [1] = "travelToArea",
+            [2] = workspace:WaitForChild("areaCircles"):WaitForChild("areaCircle")
+        }
+        game:GetService("ReplicatedStorage"):WaitForChild("rEvents"):WaitForChild("areaTravelRemote"):InvokeServer(unpack(args))
     end
 
-    -- Fonction pour auto-hatch
+    -- Fonction de hatching
     function autohatch()
-        local crystalName = getgenv().selectcrystal
         local args = {
             [1] = "openCrystal",
-            [2] = crystalName
+            [2] = "Blue Crystal"
         }
         game:GetService("ReplicatedStorage"):WaitForChild("rEvents"):WaitForChild("openCrystalRemote"):InvokeServer(unpack(args))
     end
 
-    -- Fonction Night Sky (Ciel de nuit sans brouillard)
-    function nightSky()
-        local Lighting = game:GetService("Lighting")
-
-        Lighting.ClockTime = 0 -- Minuit
-        Lighting.Brightness = 1
-        Lighting.OutdoorAmbient = Color3.new(0.1, 0.1, 0.2)
-        Lighting.Ambient = Color3.new(0.1, 0.1, 0.2)
-
-        local colorCorrection = Instance.new("ColorCorrectionEffect")
-        colorCorrection.Parent = Lighting
-        colorCorrection.TintColor = Color3.new(0.3, 0.3, 0.4)
-        colorCorrection.Saturation = -0.2
-        colorCorrection.Brightness = -0.1
+    -- Fonction Fast Punch
+    function fastPunch()
+        while getgenv().fastPunch do
+            local args = {
+                [1] = "swingFist"
+            }
+            game:GetService("ReplicatedStorage"):WaitForChild("rEvents"):WaitForChild("swingFistRemote"):InvokeServer(unpack(args))
+            task.wait(0.1) -- Délai entre chaque punch (0.1s pour une frappe rapide)
+        end
     end
 
-    -- Tabs et éléments de l'UI
+    -- Fonction Night Sky (Ciel de nuit sans brouillard et sans assombrir le sol)
+    function nightSky()
+        local Lighting = game:GetService("Lighting")
+        
+        Lighting.ClockTime = 0 -- Minuit pour un ciel sombre
+        Lighting.Brightness = 2 -- Garder une bonne luminosité au sol
+        Lighting.OutdoorAmbient = Color3.new(0.3, 0.3, 0.3) -- Légère lumière d'ambiance pour ne pas assombrir le sol
+        Lighting.Ambient = Color3.new(0.3, 0.3, 0.3) -- Légère lumière d'ambiance
+
+        local sky = Instance.new("Sky")
+        sky.Parent = Lighting
+        sky.SkyboxBk = "rbxassetid://6825465291" -- Ciel de nuit noir
+        sky.SkyboxDn = "rbxassetid://6825465291"
+        sky.SkyboxFt = "rbxassetid://6825465291"
+        sky.SkyboxLf = "rbxassetid://6825465291"
+        sky.SkyboxRt = "rbxassetid://6825465291"
+        sky.SkyboxUp = "rbxassetid://6825465291"
+    end
+
+    -- Création des onglets
     local TeleportTab = Window:MakeTab({
         Name = "Teleport",
         Icon = "rbxassetid://4483345998"
@@ -70,15 +74,20 @@ if game.PlaceId == 3623096087 then
         PremiumOnly = false
     })
 
-    -- Bouton de téléportation
+    local AutoFarmTab = Window:MakeTab({
+        Name = "Auto Farm",
+        Icon = "rbxassetid://4483345998",
+        PremiumOnly = false
+    })
+
+    -- Boutons et Toggle
     TeleportTab:AddButton({
-        Name = "Téléportation",
+        Name = "Teleport",
         Callback = function()
             teleport()
         end
     })
 
-    -- Bouton pour auto-hatch
     EggsTab:AddButton({
         Name = "Auto Hatch",
         Callback = function()
@@ -86,36 +95,69 @@ if game.PlaceId == 3623096087 then
         end
     })
 
-    -- Bouton pour activer le ciel de nuit
     MiscTab:AddButton({
-        Name = "Activer le ciel de nuit",
+        Name = "Night Sky",
         Callback = function()
             nightSky()
         end
     })
 
-    -- Dropdown de sélection d'île
-    TeleportTab:AddDropdown({
-        Name = "Sélectionner l'île",
-        Default = "Tiny Island",
-        Options = {"Main Island", "Tiny Island", "Frost Island", "Mythical Island", "Eternal Island", "Legends Island", "Muscleking Island"},
-        Callback = function(Value)
-            getgenv().selectisland = Value
-            print("Île sélectionnée : ", Value)
+    -- Toggle pour Fast Punch
+    AutoFarmTab:AddToggle({
+        Name = "Fast Punch",
+        Default = false,
+        Callback = function(value)
+            getgenv().fastPunch = value
+            if value then
+                fastPunch()
+            end
         end
     })
 
-    -- Dropdown de sélection d'œuf
+    -- Dropdowns pour sélectionner l'île et les oeufs
+    TeleportTab:AddDropdown({
+        Name = "Select Island",
+        Default = "Tiny Island",
+        Options = {"Main Island", "Tiny Island", "Frost Island", "Mythical Island","Eternal Island","Legends Island","Muscleking Island"},
+        Callback = function(Value)
+            getgenv().selectisland = Value
+            print(getgenv().selectisland)
+        end
+    })
+
     EggsTab:AddDropdown({
-        Name = "Sélectionner l'œuf",
+        Name = "Select Egg",
         Default = "Blue Crystal",
         Options = {"Blue Crystal"},
         Callback = function(Value)
             getgenv().selectcrystal = Value
-            print("Cristal sélectionné : ", Value)
+            print(getgenv().selectcrystal)
         end
     })
 
-    -- Initialisation de la librairie Orion
+    -- Anti-AFK
+    MiscTab:AddButton({
+        Name = "Anti afk",
+        Callback = function()
+            local VirtualInputManager = game:GetService("VirtualInputManager")
+            local UserInputService = game:GetService("UserInputService")
+            local Hooks = {}
+
+            -- Code pour anti-AFK
+            for i, v in next, getconnections(UserInputService.WindowFocusReleased) do
+                v:Disable()
+            end
+            for i, v in next, getconnections(UserInputService.WindowFocused) do
+                v:Disable()
+            end
+
+            while true do
+                VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.Unknown, false, game)
+                task.wait(Random.new():NextNumber(15, 120))
+            end
+        end
+    })
+
+    -- Initialiser la librairie Orion
     OrionLib:Init()
 end
