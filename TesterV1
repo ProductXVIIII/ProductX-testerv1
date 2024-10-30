@@ -172,13 +172,25 @@ PremiumOnly = <bool>
 ]]
 
 AutofarmTab:AddButton({
-	Name = "Fast Punch",
+	Name = "Auto rebirth",
 	Callback = function()
       		print("button pressed")
   	end    
 })
 
-PlayerSection:NewToggle('Auto Rebirth','',function(Testing)
+Tab:AddToggle({
+	Name = "Auto rebirth",
+	Default = false,
+	Callback = function(Value)
+		print(Value)
+	end    
+})
+
+--[[
+Name = <string> - The name of the toggle.
+Default = <bool> - The default value of the toggle.
+Callback = <function> - The function of the toggle.
+]]
     
     test = Testing
     
