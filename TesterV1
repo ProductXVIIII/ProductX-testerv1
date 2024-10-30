@@ -176,6 +176,19 @@ if game.PlaceId == 3623096087 then
         end
     })
 
+    -- Slider pour changer la vitesse de marche
+    MiscTab:AddSlider({
+        Name = "Vitesse de marche",
+        Min = 16,
+        Max = 500,
+        Default = 16,
+        Increment = 1,
+        ValueName = "Vitesse",
+        Callback = function(value)
+            game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = value
+        end
+    })
+
     -- Toggle pour Fast Punch
     AutoFarmTab:AddToggle({
         Name = "Fast Punch",
@@ -242,7 +255,8 @@ if game.PlaceId == 3623096087 then
 
             -- Code pour anti-AFK
             while true do
-                VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.Unknown, false, game)
+
+VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.Unknown, false, game)
                 task.wait(math.random(15, 120)) -- Temps aléatoire avant le prochain envoi d'événement
             end
         end
