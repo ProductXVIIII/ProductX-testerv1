@@ -1,8 +1,8 @@
 if game.PlaceId == 3623096087 then
     local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
-    local Window = OrionLib:MakeWindow({Name = "Product X 💪Muscle Legends", IntroText = "Product X by DeLTaXVIIII", SaveConfig = false, ConfigFolder = "DeLTaXVIIII Coinfig"})
+    local Window = OrionLib:MakeWindow({Name = "Product X Tester", IntroText = "Product X by DeLTaXVIIII", SaveConfig = false, ConfigFolder = "DeLTaXVIIII Coinfig"})
 
-    -- Valus
+    -- Variables
     getgenv().teleport = true
     getgenv().selectisland = "Tiny Island"
     getgenv().autohatch = true
@@ -22,20 +22,28 @@ if game.PlaceId == 3623096087 then
     function autohatch()
         local args = {
             [1] = "openCrystal",
-            [2] = "Blue Crystal"
+            [2] = getgenv().selectcrystal
         }
         game:GetService("ReplicatedStorage"):WaitForChild("rEvents"):WaitForChild("openCrystalRemote"):InvokeServer(unpack(args))
     end
 
-    -- Fonction Fast Punch
+    -- Fonction Fast Punch améliorée
     function fastPunch()
-        while getgenv().fastPunch do
-            local args = {
-                [1] = "swingFist"
-            }
-            game:GetService("ReplicatedStorage"):WaitForChild("rEvents"):WaitForChild("swingFistRemote"):InvokeServer(unpack(args))
-            task.wait(0.1) -- Délai entre chaque punch (0.1s pour une frappe rapide)
-        end
+        spawn(function()
+            while getgenv().fastPunch do
+                -- Vérifie si le Remote existe avant de l'appeler
+                local swingFistRemote = game:GetService("ReplicatedStorage"):FindFirstChild("rEvents"):FindFirstChild("swingFistRemote")
+                if swingFistRemote then
+                    local args = {
+                        [1] = "swingFist"
+                    }
+                    swingFistRemote:InvokeServer(unpack(args))
+                else
+                    print("Erreur : swingFistRemote introuvable.")
+                end
+                task.wait(0.1) -- Ajuste cette valeur pour la vitesse des coups
+            end
+        end)
     end
 
     -- Fonction Night Sky (Ciel de nuit sans brouillard et sans assombrir le sol)
