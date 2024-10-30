@@ -1,84 +1,164 @@
+if game.placeId == 3623096087 then
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
-local Window = OrionLib:MakeWindow({Name = "Title of the library", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
-local Tab = Window:MakeTab({
-	Name = "Tab 1",
-	Icon = "rbxassetid://4483345998",
-	PremiumOnly = false
+local Window = OrionLib:MakeWindow({Name = "Rip_LORD Hub | 💪Muscle Legends", IntroText = "Rip_LORD Hub", SaveConfig = false, ConfigFolder = "Rip_LORD Coinfig"})
+
+--Valus
+getgenv().teleport = true
+getgenv().selectisland = "Tiny Island"
+getgenv().autohatch = true
+getgenv().selectcrystal = "Blue Crystal"
+
+--functions
+--[[function mainisland()
+    local args = {
+        [1] = "travelToArea",
+        [2] = workspace:WaitForChild("areaCircles"):WaitForChild("areaCircle")
+    }
+    
+    game:GetService("ReplicatedStorage"):WaitForChild("rEvents"):WaitForChild("areaTravelRemote"):InvokeServer(unpack(args))
+end
+
+function tinyisland()
+    local args = {
+        [1] = "travelToArea",
+        [2] = workspace:WaitForChild("areaCircles"):WaitForChild("areaCircle")
+    }
+    
+    game:GetService("ReplicatedStorage"):WaitForChild("rEvents"):WaitForChild("areaTravelRemote"):InvokeServer(unpack(args))
+end
+
+function frostisland()
+    local args = {
+        [1] = "travelToArea",
+        [2] = workspace:WaitForChild("areaCircles"):WaitForChild("areaCircle")
+    }
+    
+    game:GetService("ReplicatedStorage"):WaitForChild("rEvents"):WaitForChild("areaTravelRemote"):InvokeServer(unpack(args))
+end
+
+function mythicalisland()
+    local args = {
+        [1] = "travelToArea",
+        [2] = workspace:WaitForChild("areaCircles"):WaitForChild("areaCircle")
+    }
+    
+    game:GetService("ReplicatedStorage"):WaitForChild("rEvents"):WaitForChild("areaTravelRemote"):InvokeServer(unpack(args))
+end
+
+function eternalisland()
+    local args = {
+        [1] = "travelToArea",
+        [2] = workspace:WaitForChild("areaCircles"):WaitForChild("areaCircle")
+    }
+    
+    game:GetService("ReplicatedStorage"):WaitForChild("rEvents"):WaitForChild("areaTravelRemote"):InvokeServer(unpack(args))
+end
+
+function legendsisland()
+    local args = {
+        [1] = "travelToArea",
+        [2] = workspace:WaitForChild("areaCircles"):WaitForChild("areaCircle")
+    }
+    
+    game:GetService("ReplicatedStorage"):WaitForChild("rEvents"):WaitForChild("areaTravelRemote"):InvokeServer(unpack(args))
+end
+
+function musclekingisland()
+    local args = {
+        [1] = "travelToArea",
+        [2] = workspace:WaitForChild("areaCircles"):WaitForChild("areaCircle")
+    }
+    
+    game:GetService("ReplicatedStorage"):WaitForChild("rEvents"):WaitForChild("areaTravelRemote"):InvokeServer(unpack(args))
+end]]
+
+function teleport()
+    local args = {
+        [1] = "travelToArea",
+        [2] = workspace:WaitForChild("areaCircles"):WaitForChild("areaCircle")}
+    game:GetService("ReplicatedStorage"):WaitForChild("rEvents"):WaitForChild("areaTravelRemote"):InvokeServer(getgenv().teleport(args))
+    local args1 = {
+        [1] = "travelToArea",
+        [2] = workspace:WaitForChild("areaCircles"):WaitForChild("areaCircle")}
+    game:GetService("ReplicatedStorage"):WaitForChild("rEvents"):WaitForChild("areaTravelRemote"):InvokeServer(unpack(args1))
+    local args2 = {
+        [1] = "travelToArea",
+        [2] = workspace:WaitForChild("areaCircles"):WaitForChild("areaCircle")}
+    game:GetService("ReplicatedStorage"):WaitForChild("rEvents"):WaitForChild("areaTravelRemote"):InvokeServer(unpack(args2))
+    local args3 = {
+        [1] = "travelToArea",
+        [2] = workspace:WaitForChild("areaCircles"):WaitForChild("areaCircle")}
+    game:GetService("ReplicatedStorage"):WaitForChild("rEvents"):WaitForChild("areaTravelRemote"):InvokeServer(unpack(args3))
+    local args4 = {
+        [1] = "travelToArea",
+        [2] = workspace:WaitForChild("areaCircles"):WaitForChild("areaCircle")}
+    game:GetService("ReplicatedStorage"):WaitForChild("rEvents"):WaitForChild("areaTravelRemote"):InvokeServer(unpack(args4))
+    local args5 = {
+        [1] = "travelToArea",
+        [2] = workspace:WaitForChild("areaCircles"):WaitForChild("areaCircle")}
+    game:GetService("ReplicatedStorage"):WaitForChild("rEvents"):WaitForChild("areaTravelRemote"):InvokeServer(unpack(args5))
+    local args6 = {
+        [1] = "travelToArea",
+        [2] = workspace:WaitForChild("areaCircles"):WaitForChild("areaCircle")}
+    game:GetService("ReplicatedStorage"):WaitForChild("rEvents"):WaitForChild("areaTravelRemote"):InvokeServer(unpack(args6))
+end
+
+function autohatch()
+    local args = {
+        [1] = "openCrystal",
+        [2] = "Blue Crystal"}
+    game:GetService("ReplicatedStorage"):WaitForChild("rEvents"):WaitForChild("openCrystalRemote"):InvokeServer(unpack(args))
+end
+
+--Taps
+local TeleportTab = Window:MakeTab({
+	Name = "Teleport",
+	Icon = "rbxassetid://4483345998"
 })
-OrionLib:MakeNotification({
-	Name = "Title!",
-	Content = "Notification content... what will it say??",
-	Image = "rbxassetid://4483345998",
-	Time = 5
+
+local EggsTab = Window:MakeTab({
+	Name = "Eggs",
+	Icon = "rbxassetid://4483345998"
 })
-Tab:AddButton({
-	Name = "Button!",
-	Callback = function()
-      		print("button pressed")
+
+--Buttons
+TeleportTab:AddButton({
+	Name = "Teleport",
+	Callback = function(Value)
+    getgenv().teleport = Value
+    teleport()
   	end    
 })
-Tab:AddToggle({
-	Name = "This is a toggle!",
-	Default = false,
+
+EggsTab:AddButton({
+	Name = "Auto Hatch",
 	Callback = function(Value)
-		print(Value)
-	end    
-})
-Tab:AddColorpicker({
-	Name = "Colorpicker",
-	Default = Color3.fromRGB(255, 0, 0),
-	Callback = function(Value)
-		print(Value)
-	end	  
-})
--- ColorPicker:Set(Color3.fromRGB(255,255,255))
-Tab:AddSlider({
-	Name = "Slider",
-	Min = 0,
-	Max = 20,
-	Default = 5,
-	Color = Color3.fromRGB(255,255,255),
-	Increment = 1,
-	ValueName = "bananas",
-	Callback = function(Value)
-		print(Value)
-	end    
+    getgenv().autohatch = Value
+    autohatch()
+  	end
 })
 
- --Slider:Set(2)
- Tab:AddLabel("Label")
---CoolLabel:Set("Label New!")
-Tab:AddParagraph("Paragraph","Paragraph Content")
--- CoolParagraph:Set("Paragraph New!")
-
-Tab:AddTextbox({
-	Name = "Textbox",
-	Default = "default box input",
-	TextDisappear = true,
+--Dropdowns
+TeleportTab:AddDropdown({
+	Name = "Select Island",
+	Default = "Tiny Island",
+	Options = {"Main Island", "Tiny Island", "Frost Island", "Mythical Island","Eternal Island","Legends Island","Muscleking Island",},
 	Callback = function(Value)
-		print(Value)
-	end	  
+    getgenv().selectisland = Value
+    print(getgenv().selectisland)
+	end
+})
+
+TeleportTab:AddDropdown({
+	Name = "Select Egg",
+	Default = "Blue Crystal",
+	Options = {"Blua Crystal",},
+	Callback = function(Value)
+    getgenv().autohatch = Value
+    print(getgenv().selectcrystal)
+	end
 })
 
 
-Tab:AddBind({
-	Name = "Bind",
-	Default = Enum.KeyCode.E,
-	Hold = false,
-	Callback = function()
-		print("press")
-	end    
-})
--- Bind:Set(Enum.KeyCode.E)
-Tab:AddDropdown({
-	Name = "Dropdown",
-	Default = "1",
-	Options = {"1", "2"},
-	Callback = function(Value)
-		print(Value)
-	end    
-})
--- Dropdown:Refresh(List<table>,true)
---Dropdown:Set("dropdown option")
+end
 OrionLib:Init()
--- destroying the interface: OrionLib:Destroy()
