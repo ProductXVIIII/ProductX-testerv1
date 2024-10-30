@@ -174,17 +174,6 @@ PremiumOnly = <bool>
 AutofarmTab:AddButton({
 	Name = "Auto rebirth",
 	Callback = function()
-      		print("button pressed")
-  	end    
-})
-
-Tab:AddToggle({
-	Name = "Auto rebirth",
-	Default = false,
-	Callback = function(Value)
-		print(Value)
-	end    
-})
 
 --[[
 Name = <string> - The name of the toggle.
