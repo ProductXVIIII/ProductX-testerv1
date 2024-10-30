@@ -171,5 +171,18 @@ Icon = <string>
 PremiumOnly = <bool>
 ]]
 
+AutofarmTab:AddButton({
+	Name = "Fast Punch",
+	Callback = function()
+      		print("button pressed")
+  	end    
+})
+
+--[[
+Name = <string> - The name of the button.
+Callback = <function>
+]
+game:GetService("Players").LocalPlayer.Backpack.Punch:FindFirstChildOfClass("NumberValue").Value = 0
+
 end
 OrionLib:Init()
