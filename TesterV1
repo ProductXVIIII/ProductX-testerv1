@@ -29,29 +29,6 @@ if game.PlaceId == 3623096087 then
         game:GetService("ReplicatedStorage"):WaitForChild("rEvents"):WaitForChild("openCrystalRemote"):InvokeServer(unpack(args))
     end
 
-    -- Fonction Auto Punch avec clics automatiques
-    local UserInputService = game:GetService("UserInputService")
-
-    function autoPunch()
-        print("Auto Punch activé")
-        spawn(function()
-            while getgenv().autoPunch do
-                print("Auto Punch en cours...")
-                
-                -- Simule un clic gauche
-                local input = Instance.new("InputObject")
-                input.UserInputType = Enum.UserInputType.MouseButton1 -- Clic gauche
-                input.UserInputState = Enum.UserInputState.Begin
-                
-                -- Envoie l'événement de clic
-                UserInputService.InputBegan:Fire(input)
-
-                -- Petite pause entre les clics, ajustable
-                task.wait(0.5) -- Vous pouvez ajuster cette valeur pour contrôler la vitesse des clics
-            end
-        end)
-    end
-
     -- Fonction Fast Punch améliorée
     function fastPunch()
         print("Fast Punch activé")
@@ -76,6 +53,34 @@ if game.PlaceId == 3623096087 then
                     print("Erreur : swingFistRemote introuvable.")
                 end
                 task.wait(0.5) -- Ajuste cette valeur pour la vitesse des coups
+            end
+        end)
+    end
+
+    -- Fonction Auto Punch
+    function autoPunch()
+        print("Auto Punch activé")
+        spawn(function()
+            while getgenv().autoPunch do
+                print("Auto Punch en cours...")
+                -- Vérifie si le Remote existe avant de l'appeler
+                local swingFistRemote = game:GetService("ReplicatedStorage"):FindFirstChild("rEvents"):FindFirstChild("swingFistRemote")
+                if swingFistRemote then
+                    local args = {
+                        [1] = "swingFist"
+                    }
+                    -- Appel du remote avec un essai pour éviter les erreurs
+                    local success, errorMessage = pcall(function()
+                        swingFistRemote:InvokeServer(unpack(args))
+                    end)
+
+                    if not success then
+                        print("Erreur lors de l'appel de swingFistRemote: " .. errorMessage)
+                    end
+                else
+                    print("Erreur : swingFistRemote introuvable.")
+                end
+                task.wait(0.5) -- Ajuste cette valeur pour la vitesse des clics
             end
         end)
     end
@@ -191,8 +196,6 @@ if game.PlaceId == 3623096087 then
             getgenv().autoPunch = value
             if value then
                 autoPunch()  -- Appelle la fonction autoPunch si activé
-            else
-                print("Auto Punch désactivé")
             end
         end
     })
@@ -246,5 +249,5 @@ if game.PlaceId == 3623096087 then
     })
 
     -- Initialiser la librairie Orion
-    OrionLib
+    OrionLib:Init()
 end
