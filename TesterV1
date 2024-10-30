@@ -7,7 +7,7 @@ if game.PlaceId == 3623096087 then
     getgenv().selectisland = "Tiny Island"
     getgenv().autohatch = true
     getgenv().selectcrystal = "Blue Crystal"
-    getgenv().fastPunch = false
+    getgenv().fastPunch = true
 
     -- Fonction de téléportation
     function teleport()
