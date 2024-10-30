@@ -8,6 +8,7 @@ if game.PlaceId == 3623096087 then
     getgenv().autohatch = true
     getgenv().selectcrystal = "Blue Crystal"
     getgenv().fastPunch = false
+    getgenv().autoFarm = false
 
     -- Fonction de téléportation
     function teleport()
@@ -33,13 +34,11 @@ if game.PlaceId == 3623096087 then
         spawn(function()
             while getgenv().fastPunch do
                 print("Essai de frapper...")
-                -- Vérifie si le Remote existe avant de l'appeler
                 local swingFistRemote = game:GetService("ReplicatedStorage"):FindFirstChild("rEvents"):FindFirstChild("swingFistRemote")
                 if swingFistRemote then
                     local args = {
                         [1] = "swingFist"
                     }
-                    -- Appel du remote avec un essai pour éviter les erreurs
                     local success, errorMessage = pcall(function()
                         swingFistRemote:InvokeServer(unpack(args))
                     end)
@@ -50,28 +49,53 @@ if game.PlaceId == 3623096087 then
                 else
                     print("Erreur : swingFistRemote introuvable.")
                 end
-                task.wait(0.5) -- Ajuste cette valeur pour la vitesse des coups
+                task.wait(0.5)
             end
         end)
     end
 
-    -- Fonction Night Sky (Ciel de nuit sans brouillard et sans assombrir le sol)
+    -- Fonction Night Sky
     function nightSky()
         local Lighting = game:GetService("Lighting")
         
-        Lighting.ClockTime = 0 -- Minuit pour un ciel sombre
-        Lighting.Brightness = 2 -- Garder une bonne luminosité au sol
-        Lighting.OutdoorAmbient = Color3.new(0.3, 0.3, 0.3) -- Légère lumière d'ambiance pour ne pas assombrir le sol
-        Lighting.Ambient = Color3.new(0.3, 0.3, 0.3) -- Légère lumière d'ambiance
+        Lighting.ClockTime = 0
+        Lighting.Brightness = 2
+        Lighting.OutdoorAmbient = Color3.new(0.3, 0.3, 0.3)
+        Lighting.Ambient = Color3.new(0.3, 0.3, 0.3)
 
         local sky = Instance.new("Sky")
         sky.Parent = Lighting
-        sky.SkyboxBk = "rbxassetid://6825465291" -- Ciel de nuit noir
+        sky.SkyboxBk = "rbxassetid://6825465291"
         sky.SkyboxDn = "rbxassetid://6825465291"
         sky.SkyboxFt = "rbxassetid://6825465291"
         sky.SkyboxLf = "rbxassetid://6825465291"
         sky.SkyboxRt = "rbxassetid://6825465291"
         sky.SkyboxUp = "rbxassetid://6825465291"
+    end
+
+    -- Fonction Auto Farm (Auto Clicker)
+    function autoFarm()
+        print("Auto Farm activé")
+        spawn(function()
+            while getgenv().autoFarm do
+                local clickRemote = game:GetService("ReplicatedStorage"):FindFirstChild("rEvents"):FindFirstChild("clickRemote")
+                if clickRemote then
+                    local args = {
+                        [1] = "click"
+                    }
+                    local success, errorMessage = pcall(function()
+                        clickRemote:InvokeServer(unpack(args))
+                    end)
+
+                    if not success then
+                        print("Erreur lors de l'appel de clickRemote: " .. errorMessage)
+                    end
+                else
+                    print("Erreur : clickRemote introuvable.")
+                end
+                task.wait(0.1) -- Adjust click speed here (in seconds)
+            end
+        end)
     end
 
     -- Création des onglets
@@ -127,6 +151,18 @@ if game.PlaceId == 3623096087 then
             getgenv().fastPunch = value
             if value then
                 fastPunch()
+            end
+        end
+    })
+
+    -- Toggle pour Auto Farm (Auto Clicker)
+    AutoFarmTab:AddToggle({
+        Name = "Auto Farm",
+        Default = false,
+        Callback = function(value)
+            getgenv().autoFarm = value
+            if value then
+                autoFarm()
             end
         end
     })
