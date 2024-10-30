@@ -1,6 +1,6 @@
 if game.placeId == 3623096087 then
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
-local Window = OrionLib:MakeWindow({Name = "Rip_LORD Hub | 💪Muscle Legends", IntroText = "Rip_LORD Hub", SaveConfig = false, ConfigFolder = "Rip_LORD Coinfig"})
+local Window = OrionLib:MakeWindow({Name = "Product X 💪Muscle Legends", IntroText = "Product X by DeLTaXVIIII", SaveConfig = false, ConfigFolder = "DeLTaXVIIII Coinfig"})
 
 --Valus
 getgenv().teleport = true
