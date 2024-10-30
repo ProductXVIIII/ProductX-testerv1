@@ -7,29 +7,53 @@ if game.PlaceId == 3623096087 then
         ConfigFolder = "DeLTaXVIIII_Config"
     })
 
-    -- Global Variables
+    -- Variables Globales
     getgenv().selectisland = "Tiny Island"
     getgenv().selectcrystal = "Blue Crystal"
 
-    -- Functions
+    -- Fonction de téléportation
     function teleport()
-        local island = getgenv().selectisland
-        local args = {
-            [1] = "travelToArea",
-            [2] = workspace:WaitForChild("areaCircles"):FindFirstChild(island)
-        }
-        game:GetService("ReplicatedStorage"):WaitForChild("rEvents"):WaitForChild("areaTravelRemote"):InvokeServer(unpack(args))
+        local selectedIsland = getgenv().selectisland
+        local areaCircle = workspace:WaitForChild("areaCircles"):FindFirstChild(selectedIsland)
+
+        if areaCircle then
+            local args = {
+                [1] = "travelToArea",
+                [2] = areaCircle
+            }
+            game:GetService("ReplicatedStorage"):WaitForChild("rEvents"):WaitForChild("areaTravelRemote"):InvokeServer(unpack(args))
+        else
+            warn("L'île sélectionnée n'existe pas : " .. tostring(selectedIsland))
+        end
     end
 
+    -- Fonction pour auto-hatch
     function autohatch()
+        local crystalName = getgenv().selectcrystal
         local args = {
             [1] = "openCrystal",
-            [2] = getgenv().selectcrystal
+            [2] = crystalName
         }
         game:GetService("ReplicatedStorage"):WaitForChild("rEvents"):WaitForChild("openCrystalRemote"):InvokeServer(unpack(args))
     end
 
-    -- Tabs and UI Elements
+    -- Fonction Night Sky (Ciel de nuit sans brouillard)
+    function nightSky()
+        local Lighting = game:GetService("Lighting")
+
+        Lighting.ClockTime = 0 -- Minuit
+        Lighting.Brightness = 1
+        Lighting.OutdoorAmbient = Color3.new(0.1, 0.1, 0.2)
+        Lighting.Ambient = Color3.new(0.1, 0.1, 0.2)
+
+        local colorCorrection = Instance.new("ColorCorrectionEffect")
+        colorCorrection.Parent = Lighting
+        colorCorrection.TintColor = Color3.new(0.3, 0.3, 0.4)
+        colorCorrection.Saturation = -0.2
+        colorCorrection.Brightness = -0.1
+    end
+
+    -- Tabs et éléments de l'UI
     local TeleportTab = Window:MakeTab({
         Name = "Teleport",
         Icon = "rbxassetid://4483345998"
@@ -40,15 +64,21 @@ if game.PlaceId == 3623096087 then
         Icon = "rbxassetid://4483345998"
     })
 
-    -- Teleport Button
+    local MiscTab = Window:MakeTab({
+        Name = "Misc",
+        Icon = "rbxassetid://4483345998",
+        PremiumOnly = false
+    })
+
+    -- Bouton de téléportation
     TeleportTab:AddButton({
-        Name = "Teleport",
+        Name = "Téléportation",
         Callback = function()
             teleport()
         end
     })
 
-    -- Auto Hatch Button
+    -- Bouton pour auto-hatch
     EggsTab:AddButton({
         Name = "Auto Hatch",
         Callback = function()
@@ -56,72 +86,36 @@ if game.PlaceId == 3623096087 then
         end
     })
 
-    -- Island Selection Dropdown
+    -- Bouton pour activer le ciel de nuit
+    MiscTab:AddButton({
+        Name = "Activer le ciel de nuit",
+        Callback = function()
+            nightSky()
+        end
+    })
+
+    -- Dropdown de sélection d'île
     TeleportTab:AddDropdown({
-        Name = "Select Island",
+        Name = "Sélectionner l'île",
         Default = "Tiny Island",
         Options = {"Main Island", "Tiny Island", "Frost Island", "Mythical Island", "Eternal Island", "Legends Island", "Muscleking Island"},
         Callback = function(Value)
             getgenv().selectisland = Value
-            print("Selected Island:", Value)
+            print("Île sélectionnée : ", Value)
         end
     })
 
-    -- Egg Selection Dropdown
+    -- Dropdown de sélection d'œuf
     EggsTab:AddDropdown({
-        Name = "Select Egg",
+        Name = "Sélectionner l'œuf",
         Default = "Blue Crystal",
         Options = {"Blue Crystal"},
         Callback = function(Value)
             getgenv().selectcrystal = Value
-            print("Selected Crystal:", Value)
+            print("Cristal sélectionné : ", Value)
         end
     })
 
-    -- Miscellaneous Tab
-    local MiscTab = Window:MakeTab({
-        Name = "Misc",
-        Icon = "rbxassetid://4483345998"
-    })
-
-    -- Anti-AFK Button
-    MiscTab:AddButton({
-        Name = "Anti AFK",
-        Callback = function()
-            local VirtualUser = game:GetService("VirtualUser")
-            game:GetService("Players").LocalPlayer.Idled:connect(function()
-                VirtualUser:CaptureController()
-                VirtualUser:ClickButton2(Vector2.new())
-            end)
-        end
-    })
-
-    -- Night Sky Button
-    MiscTab:AddButton({
-        Name = "Night Sky",
-        Callback = function()
-            local Lighting = game:GetService("Lighting")
-
-            -- Set Nighttime Settings
-            Lighting.ClockTime = 0
-            Lighting.Brightness = 1
-            Lighting.OutdoorAmbient = Color3.new(0.1, 0.1, 0.2)
-            Lighting.Ambient = Color3.new(0.1, 0.1, 0.2)
-
-            -- Add Color Correction Effect for Night Look
-            local colorCorrection = Instance.new("ColorCorrectionEffect")
-            colorCorrection.Parent = Lighting
-            colorCorrection.TintColor = Color3.new(0.3, 0.3, 0.4)
-            colorCorrection.Saturation = -0.2
-            colorCorrection.Brightness = -0.1
-
-            -- Adjust Fog for Nighttime Atmosphere
-            Lighting.FogColor = Color3.new(0, 0, 0.1)
-            Lighting.FogEnd = 1000
-            Lighting.FogStart = 200
-        end
-    })
-
-    -- Initialize Orion Library
+    -- Initialisation de la librairie Orion
     OrionLib:Init()
 end
