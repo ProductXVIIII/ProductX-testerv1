@@ -308,11 +308,22 @@ MiscTab:AddButton({
       		local Lighting = game:GetService("Lighting")
 
 
-Lighting.ClockTime = 0          
-Lighting.Brightness = 0         
-Lighting.GlobalShadows = false  
-Lighting.OutdoorAmbient = Color3.new(0.1, 0.1, 0.2)  
-Lighting.Ambient = Color3.new(0.1, 0.1, 0.2)         
+Lighting.ClockTime = 0
+Lighting.Brightness = 1
+Lighting.OutdoorAmbient = Color3.new(0.1, 0.1, 0.2)
+Lighting.Ambient = Color3.new(0.1, 0.1, 0.2)
+
+
+local colorCorrection = Instance.new("ColorCorrectionEffect")
+colorCorrection.Parent = Lighting
+colorCorrection.TintColor = Color3.new(0.3, 0.3, 0.4)
+colorCorrection.Saturation = -0.2
+colorCorrection.Brightness = -0.1
+
+
+Lighting.FogColor = Color3.new(0, 0, 0.1)
+Lighting.FogEnd = 0 
+Lighting.FogStart = 0     
 
 
 end
