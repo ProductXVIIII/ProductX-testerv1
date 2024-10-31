@@ -11,7 +11,7 @@ if game.PlaceId == 3623096087 then
     getgenv().autoPunch = false
     getgenv().fastWeight = false
 
-    -- Fonction de téléportation automatique
+    -- Fonction de téléportation
     function teleport()
         local args = {
             [1] = "travelToArea",
@@ -29,97 +29,78 @@ if game.PlaceId == 3623096087 then
         game:GetService("ReplicatedStorage"):WaitForChild("rEvents"):WaitForChild("openCrystalRemote"):InvokeServer(unpack(args))
     end
 
-    -- Fonction Fast Punch améliorée
-    function fastPunch()
-        print("Fast Punch activé")
-        spawn(function()
-            while getgenv().fastPunch do
-                local punchValue = game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Punch"):FindFirstChildOfClass("NumberValue")
-                if punchValue then
-                    punchValue.Value = 0 -- Réinitialise la valeur à 0 pour accélérer les coups
-                    print("Fast Punch en cours...")
-                else
-                    print("Erreur : Punch introuvable dans le Backpack.")
-                end
-                task.wait(0.5) -- Fréquence des coups
-            end
-        end)
+    -- Nouvelle logique pour Auto Punch
+    if not game:IsLoaded() then game.Loaded:Wait() end
+
+    local ReplicatedStorage = game:GetService("ReplicatedStorage")
+    local Events = ReplicatedStorage:WaitForChild("Events")
+
+    local getClicksEvent = Events:WaitForChild("GetClicksEvent")
+    local callThreadEvent = Events:WaitForChild("CallThreadEvent")
+
+    local player = game.Players.LocalPlayer
+    local mouse = player:GetMouse()
+
+    local function thread()
+        callThreadEvent:FireServer()
     end
 
-    -- Fonction Auto Punch
-    function autoPunch()
-        print("Auto Punch activé")
-        spawn(function()
-            while getgenv().autoPunch do
-                print("Auto Punch en cours...")
-                local swingFistRemote = game:GetService("ReplicatedStorage"):FindFirstChild("rEvents"):FindFirstChild("swingFistRemote")
-                if swingFistRemote then
-                    local args = {
-                        [1] = "swingFist"
-                    }
-                    local success, errorMessage = pcall(function()
-                        swingFistRemote:InvokeServer(unpack(args))
-                    end)
+    local co = coroutine.create(thread)
+    coroutine.resume(co)
 
-                    if not success then
-                        print("Erreur lors de l'appel de swingFistRemote: " .. errorMessage)
-                    end
-                else
-                    print("Erreur : swingFistRemote introuvable.")
-                end
-                task.wait(0.5) -- Fréquence des clics
-            end
-        end)
+    mouse.Button1Down:Connect(function()
+        getClicksEvent:FireServer()
+    end)
+
+    -- Serveur (Pour éviter le spam de clics)
+    local ReplicatedStorage = game:GetService("ReplicatedStorage")
+    local Events = ReplicatedStorage:WaitForChild("Events")
+    local getClicksEvent = Events:WaitForChild("GetClicksEvent")
+    local callThreadEvent = Events:WaitForChild("CallThreadEvent")
+
+    local countClick = 0
+    local TIME_WAIT = 1
+
+    local function verifClickPlayer(player)
+        if countClick > 18 then
+            player:Kick("You used autoclicker bro")
+        end
     end
 
-    -- Fonction Fast Weight
-    function fastWeight()
-        print("Fast Weight activé")
-        spawn(function()
-            while getgenv().fastWeight do
-                local weightValue = game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Weight"):FindFirstChildOfClass("NumberValue")
-                if weightValue then
-                    weightValue.Value = 0 -- Réinitialise la valeur à 0 pour accélérer l’utilisation du poids
-                    print("Fast Weight en cours...")
-                else
-                    print("Erreur : Weight introuvable dans le Backpack.")
-                end
-                task.wait(0.5) -- Fréquence de levage
-            end
-        end)
+    local function updateClick(player)
+        while task.wait(TIME_WAIT) do
+            verifClickPlayer(player)
+            print(countClick / TIME_WAIT.."Your cps")
+            countClick = 0
+        end
     end
 
-    -- Fonction Night Sky
-    function nightSky()
-        local Lighting = game:GetService("Lighting")
-        
-        Lighting.ClockTime = 0
-        Lighting.Brightness = 2
-        Lighting.OutdoorAmbient = Color3.new(0.3, 0.3, 0.3)
-        Lighting.Ambient = Color3.new(0.3, 0.3, 0.3)
+    callThreadEvent.OnServerEvent:Connect(function(player)
+        updateClick(player)
+    end)
 
-        local sky = Instance.new("Sky")
-        sky.Parent = Lighting
-        sky.SkyboxBk = "rbxassetid://6825465291"
-        sky.SkyboxDn = "rbxassetid://6825465291"
-        sky.SkyboxFt = "rbxassetid://6825465291"
-        sky.SkyboxLf = "rbxassetid://6825465291"
-        sky.SkyboxRt = "rbxassetid://6825465291"
-        sky.SkyboxUp = "rbxassetid://6825465291"
-    end
+    getClicksEvent.OnServerEvent:Connect(function(player)
+        countClick += 1
+        print(countClick..": Clicks")
+    end)
 
-    -- Fonction de téléportation par clic
-    function clickTeleport()
-        local mouse = game.Players.LocalPlayer:GetMouse()
-        local tool = Instance.new("Tool")
-        tool.RequiresHandle = false
-        tool.Name = "Click Teleport"
-        tool.Activated:Connect(function()
-            local pos = mouse.Hit + Vector3.new(0, 2.5, 0)
-            pos = CFrame.new(pos.X, pos.Y, pos.Z)
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = pos
-        end)
-        tool.Parent = game.Players.LocalPlayer.Backpack
+    -- Protection supplémentaire contre le clic rapide
+    local clickRemote = game.ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("Click")
+    local clicks = {}
+    local maxClicks = 18
+
+    clickRemote.OnServerEvent:Connect(function(player)
+        clicks[player] = clicks[player] or 0
+        clicks[player] += 1
+        if clicks[player] > maxClicks then return end
+        -- Exécuter le code souhaité ici si le nombre de clics est dans les limites autorisées
+    end)
+
+    while true do
+        for _, player in game.Players:GetPlayers() do
+            clicks[player] = 0
+        end
+        task.wait(1)
     end
 
     -- Création des onglets
@@ -148,13 +129,6 @@ if game.PlaceId == 3623096087 then
         Name = "Teleport",
         Callback = function()
             teleport()
-        end
-    })
-
-    TeleportTab:AddButton({
-        Name = "Click Teleport",
-        Callback = function()
-            clickTeleport()
         end
     })
 
