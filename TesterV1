@@ -46,28 +46,37 @@ if game.PlaceId == 3623096087 then
         end)
     end
 
-    -- Fonction Auto Punch
+    -- Nouveau code pour l'Auto Punch en utilisant l'auto-clicker fourni
     function autoPunch()
-        print("Auto Punch activé")
+        local clicks = {}
+        
+        -- Configuration des clics
+        for i = 1, 5 do -- Changez 5 pour le nombre de clics désiré
+            clicks[i] = {location = Vector3.new(0, 0, 0), wait = 1, continuous = false, randomize = false} -- exemple
+        end
+
+        local offset = 0 -- Changez l'offset si nécessaire
+
         spawn(function()
             while getgenv().autoPunch do
-                print("Auto Punch en cours...")
-                local swingFistRemote = game:GetService("ReplicatedStorage"):FindFirstChild("rEvents"):FindFirstChild("swingFistRemote")
-                if swingFistRemote then
-                    local args = {
-                        [1] = "swingFist"
-                    }
-                    local success, errorMessage = pcall(function()
-                        swingFistRemote:InvokeServer(unpack(args))
-                    end)
-
-                    if not success then
-                        print("Erreur lors de l'appel de swingFistRemote: " .. errorMessage)
+                for i = 1, #clicks do
+                    local loc = clicks[i].location
+                    if clicks[i].randomize then
+                        local randomOffsetX = math.random(-offset, offset)
+                        local randomOffsetY = math.random(-offset, offset)
+                        loc = loc + Vector3.new(randomOffsetX, randomOffsetY, 0)
                     end
-                else
-                    print("Erreur : swingFistRemote introuvable.")
+                    print("Clic "..i.."  de "..#clicks)
+                    
+                    if clicks[i].continuous then
+                        print("Clic continu à : ", loc)
+                        -- Ajouter la logique continue si nécessaire
+                    else
+                        print("Clic unique à : ", loc)
+                        -- Exécuter le clic unique ici
+                    end
+                    wait(clicks[i].wait)
                 end
-                task.wait(0.5) -- Fréquence des clics
             end
         end)
     end
@@ -108,151 +117,23 @@ if game.PlaceId == 3623096087 then
         sky.SkyboxUp = "rbxassetid://6825465291"
     end
 
-    -- Fonction de téléportation par clic
-    function clickTeleport()
-        local mouse = game.Players.LocalPlayer:GetMouse()
-        local tool = Instance.new("Tool")
-        tool.RequiresHandle = false
-        tool.Name = "Click Teleport"
-        tool.Activated:Connect(function()
-            local pos = mouse.Hit + Vector3.new(0, 2.5, 0)
-            pos = CFrame.new(pos.X, pos.Y, pos.Z)
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = pos
-        end)
-        tool.Parent = game.Players.LocalPlayer.Backpack
-    end
+    -- Création des onglets et UI
+    local TeleportTab = Window:MakeTab({ Name = "Teleport", Icon = "rbxassetid://4483345998" })
+    local EggsTab = Window:MakeTab({ Name = "Eggs", Icon = "rbxassetid://4483345998" })
+    local MiscTab = Window:MakeTab({ Name = "Misc", Icon = "rbxassetid://4483345998" })
+    local AutoFarmTab = Window:MakeTab({ Name = "Auto Farm", Icon = "rbxassetid://4483345998" })
 
-    -- Création des onglets
-    local TeleportTab = Window:MakeTab({
-        Name = "Teleport",
-        Icon = "rbxassetid://4483345998"
-    })
+    TeleportTab:AddButton({ Name = "Teleport", Callback = teleport })
+    EggsTab:AddButton({ Name = "Auto Hatch", Callback = autohatch })
+    MiscTab:AddButton({ Name = "Night Sky", Callback = nightSky })
 
-    local EggsTab = Window:MakeTab({
-        Name = "Eggs",
-        Icon = "rbxassetid://4483345998"
-    })
-
-    local MiscTab = Window:MakeTab({
-        Name = "Misc",
-        Icon = "rbxassetid://4483345998"
-    })
-
-    local AutoFarmTab = Window:MakeTab({
-        Name = "Auto Farm",
-        Icon = "rbxassetid://4483345998"
-    })
-
-    -- Boutons et Toggle
-    TeleportTab:AddButton({
-        Name = "Teleport",
-        Callback = function()
-            teleport()
-        end
-    })
-
-    TeleportTab:AddButton({
-        Name = "Click Teleport",
-        Callback = function()
-            clickTeleport()
-        end
-    })
-
-    EggsTab:AddButton({
-        Name = "Auto Hatch",
-        Callback = function()
-            autohatch()
-        end
-    })
-
-    MiscTab:AddButton({
-        Name = "Night Sky",
-        Callback = function()
-            nightSky()
-        end
-    })
-
-    -- Slider pour changer la vitesse de marche
-    MiscTab:AddSlider({
-        Name = "Speed",
-        Min = 16,
-        Max = 1000,
-        Default = 16,
-        Color = Color3.fromRGB(255, 255, 255),
-        Increment = 1,
-        ValueName = "speed",
-        Callback = function(Value)
-            game:GetService("Players").LocalPlayer.Character.Humanoid.WalkSpeed = Value -- Met à jour la vitesse de marche
-            print("Vitesse de marche définie sur : " .. Value)
-        end    
-    })
-
-    -- Toggle pour Fast Punch
-    AutoFarmTab:AddToggle({
-        Name = "Fast Punch",
-        Default = false,
-        Callback = function(value)
-            getgenv().fastPunch = value
-            if value then
-                fastPunch()
-            end
-        end
-    })
-
-    -- Toggle pour Auto Punch
+    -- Toggle pour l'Auto Punch
     AutoFarmTab:AddToggle({
         Name = "Auto Punch",
         Default = false,
         Callback = function(value)
             getgenv().autoPunch = value
-            if value then
-                autoPunch()
-            end
-        end
-    })
-
-    -- Toggle pour Fast Weight
-    AutoFarmTab:AddToggle({
-        Name = "Fast Weight",
-        Default = false,
-        Callback = function(value)
-            getgenv().fastWeight = value
-            if value then
-                fastWeight()
-            end
-        end
-    })
-
-    -- Dropdown pour sélectionner l'île et les oeufs
-    TeleportTab:AddDropdown({
-        Name = "Select Island",
-        Default = "Tiny Island",
-        Options = {"Main Island", "Tiny Island", "Frost Island", "Mythical Island", "Eternal Island", "Legends Island", "Muscleking Island"},
-        Callback = function(Value)
-            getgenv().selectisland = Value
-            print(getgenv().selectisland)
-        end
-    })
-
-    EggsTab:AddDropdown({
-        Name = "Select Egg",
-        Default = "Blue Crystal",
-        Options = {"Blue Crystal"},
-        Callback = function(Value)
-            getgenv().selectcrystal = Value
-            print(getgenv().selectcrystal)
-        end
-    })
-
-    -- Anti-AFK
-    MiscTab:AddButton({
-        Name = "Anti AFK",
-        Callback = function()
-            local VirtualInputManager = game:GetService("VirtualInputManager")
-            while true do
-                VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.Unknown, false, game)
-                task.wait(math.random(15, 120))
-            end
+            if value then autoPunch() end
         end
     })
 
