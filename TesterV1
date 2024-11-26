@@ -2,7 +2,7 @@ if game.PlaceId == 3623096087 then
     local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
     local Window = OrionLib:MakeWindow({Name = "Product X Tester", IntroText = "Product X by DeLTaXVIIII", SaveConfig = false, ConfigFolder = "DeLTaXVIIII Coinfig"})
 
-    -- Variables
+    
     getgenv().teleport = true
     getgenv().selectisland = "Tiny Island"
     getgenv().autohatch = true
