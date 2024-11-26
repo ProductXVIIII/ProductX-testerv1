@@ -11,7 +11,7 @@ if game.PlaceId == 3623096087 then
     getgenv().autoPunch = false
     getgenv().fastWeight = false
 
-    -- Fonction de téléportation automatique
+    
     function teleport()
         local args = {
             [1] = "travelToArea",
@@ -20,7 +20,7 @@ if game.PlaceId == 3623096087 then
         game:GetService("ReplicatedStorage"):WaitForChild("rEvents"):WaitForChild("areaTravelRemote"):InvokeServer(unpack(args))
     end
 
-    -- Fonction de hatching
+    
     function autohatch()
         local args = {
             [1] = "openCrystal",
@@ -29,24 +29,29 @@ if game.PlaceId == 3623096087 then
         game:GetService("ReplicatedStorage"):WaitForChild("rEvents"):WaitForChild("openCrystalRemote"):InvokeServer(unpack(args))
     end
 
-    -- Fonction Fast Punch améliorée
+    
     function fastPunch()
         print("Fast Punch activé")
         spawn(function()
             while getgenv().fastPunch do
                 local punchValue = game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Punch"):FindFirstChildOfClass("NumberValue")
                 if punchValue then
-                    punchValue.Value = 0 -- Réinitialise la valeur à 0 pour accélérer les coups
+                    punchValue.Value = 0
+
+
+
                     print("Fast Punch en cours...")
                 else
                     print("Erreur : Punch introuvable dans le Backpack.")
                 end
-                task.wait(0.5) -- Fréquence des coups
+                task.wait(0.5)
+
+
             end
         end)
     end
 
-    -- Fonction Auto Punch
+    
     function autoPunch()
         print("Auto Punch activé")
         spawn(function()
@@ -67,19 +72,22 @@ if game.PlaceId == 3623096087 then
                 else
                     print("Erreur : swingFistRemote introuvable.")
                 end
-                task.wait(0.5) -- Fréquence des clics
+                task.wait(0.5)
             end
         end)
     end
 
-    -- Fonction Fast Weight
+    
     function fastWeight()
         print("Fast Weight activé")
         spawn(function()
             while getgenv().fastWeight do
                 local weightValue = game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Weight"):FindFirstChildOfClass("NumberValue")
                 if weightValue then
-                    weightValue.Value = 0 -- Réinitialise la valeur à 0 pour accélérer l’utilisation du poids
+                    weightValue.Value = 0
+
+
+
                     print("Fast Weight en cours...")
                 else
                     print("Erreur : Weight introuvable dans le Backpack.")
@@ -89,7 +97,7 @@ if game.PlaceId == 3623096087 then
         end)
     end
 
-    -- Fonction Night Sky
+    
     function nightSky()
         local Lighting = game:GetService("Lighting")
         
@@ -108,7 +116,9 @@ if game.PlaceId == 3623096087 then
         sky.SkyboxUp = "rbxassetid://6825465291"
     end
 
-    -- Fonction de téléportation par clic
+
+
+
     function clickTeleport()
         local mouse = game.Players.LocalPlayer:GetMouse()
         local tool = Instance.new("Tool")
@@ -122,7 +132,7 @@ if game.PlaceId == 3623096087 then
         tool.Parent = game.Players.LocalPlayer.Backpack
     end
 
-    -- Création des onglets
+    
     local TeleportTab = Window:MakeTab({
         Name = "Teleport",
         Icon = "rbxassetid://4483345998"
@@ -143,7 +153,7 @@ if game.PlaceId == 3623096087 then
         Icon = "rbxassetid://4483345998"
     })
 
-    -- Boutons et Toggle
+    
     TeleportTab:AddButton({
         Name = "Teleport",
         Callback = function()
@@ -172,7 +182,7 @@ if game.PlaceId == 3623096087 then
         end
     })
 
-    -- Slider pour changer la vitesse de marche
+    
     MiscTab:AddSlider({
         Name = "Speed",
         Min = 16,
@@ -187,7 +197,7 @@ if game.PlaceId == 3623096087 then
         end    
     })
 
-    -- Toggle pour Fast Punch
+    
     AutoFarmTab:AddToggle({
         Name = "Fast Punch",
         Default = false,
@@ -199,7 +209,7 @@ if game.PlaceId == 3623096087 then
         end
     })
 
-    -- Toggle pour Auto Punch
+    
     AutoFarmTab:AddToggle({
         Name = "Auto Punch",
         Default = false,
@@ -211,7 +221,7 @@ if game.PlaceId == 3623096087 then
         end
     })
 
-    -- Toggle pour Fast Weight
+    
     AutoFarmTab:AddToggle({
         Name = "Fast Weight",
         Default = false,
@@ -223,7 +233,7 @@ if game.PlaceId == 3623096087 then
         end
     })
 
-    -- Dropdown pour sélectionner l'île et les oeufs
+    
     TeleportTab:AddDropdown({
         Name = "Select Island",
         Default = "Tiny Island",
@@ -244,7 +254,7 @@ if game.PlaceId == 3623096087 then
         end
     })
 
-    -- Anti-AFK
+    
     MiscTab:AddButton({
         Name = "Anti AFK",
         Callback = function()
