@@ -52,30 +52,13 @@ if game.PlaceId == 3623096087 then
     end
 
     
-    function autoPunch()
-        print("Auto Punch activé")
-        spawn(function()
-            while getgenv().autoPunch do
-                print("Auto Punch en cours...")
-                local swingFistRemote = game:GetService("ReplicatedStorage"):FindFirstChild("rEvents"):FindFirstChild("swingFistRemote")
-                if swingFistRemote then
-                    local args = {
-                        [1] = "swingFist"
-                    }
-                    local success, errorMessage = pcall(function()
-                        swingFistRemote:InvokeServer(unpack(args))
-                    end)
-
-                    if not success then
-                        print("Erreur lors de l'appel de swingFistRemote: " .. errorMessage)
-                    end
-                else
-                    print("Erreur : swingFistRemote introuvable.")
-                end
-                task.wait(0.5)
-            end
-        end)
-    end
+AutoFarmTab:AddToggle({
+        Name = "Auto Punch",
+        Default = false,
+        Callback = function(value)
+                  print(value)
+        end
+    })
 
     
     function fastWeight()
