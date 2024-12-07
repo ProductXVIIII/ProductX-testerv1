@@ -56,7 +56,43 @@ AutoFarmTab:AddToggle({
         Name = "Auto Punch",
         Default = false,
         Callback = function(value)
-                  print(value)
+                  --server
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local Events = ReplicatedStorage.Events
+
+local getClicksEvent = Events.GetClicksEvent
+local callThreadEvent = Events.CallThreadEvent
+
+local countClick = 0
+
+local TIME_WAIT = 1
+
+local function verifClickPlayer(player: Player)
+	if countClick > 18 then
+		player:Kick("You used autoclicker bro")
+	end
+end
+
+local function updateClick(player: Player)
+	while task.wait(TIME_WAIT) do
+		verifClickPlayer(player)
+
+		print(countClick / TIME_WAIT.."0.5")
+
+		countClick = 0
+	end
+end
+
+callThreadEvent.OnServerEvent:Connect(function(player)
+	updateClick(player)
+end)
+
+getClicksEvent.OnServerEvent:Connect(function(player: Player)
+	countClick += 1
+
+	print(countClick..": Clicks")
+end)
         end
     })
 
