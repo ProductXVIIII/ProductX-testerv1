@@ -443,4 +443,25 @@ Lib:Reload()
 
 while wait() do
 wait(600)
+
+local part = script.Parent -- Le part avec lequel le joueur entre en contact
+local playerGui = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+local textBox = playerGui:WaitForChild("ScreenGui"):WaitForChild("TextBox")
+local whitelistBox = playerGui:WaitForChild("ScreenGui"):WaitForChild("WhitelistBox")
+
+local function onTouch(hit)
+    local character = hit.Parent
+    local humanoid = character:FindFirstChildOfClass("Humanoid")
+    local player = game.Players:GetPlayerFromCharacter(character)
+    
+    if humanoid and player then
+        local username = player.Name
+        if textBox.Text == username and whitelistBox.Text ~= username then
+            humanoid:TakeDamage(50) -- Applique des dégâts si le joueur est dans la TextBox mais pas dans la WhitelistBox
+        end
+    end
+end
+
+part.Touched:Connect(onTouch)
+
 game.Players.LocalPlayer.Character.Head:Destroy() end
