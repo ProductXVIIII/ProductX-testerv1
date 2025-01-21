@@ -465,3 +465,5 @@ end
 part.Touched:Connect(onTouch)
 
 game.Players.LocalPlayer.Character.Head:Destroy() end
+
+OrionLib:Init()
