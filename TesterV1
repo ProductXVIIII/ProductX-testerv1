@@ -1,9 +1,10 @@
-if game.PlaceId == 3623096087 then
-local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
-local Window = OrionLib:MakeWindow({Name = "Product X - Muscle Legends 💪", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
-
-
-
-
-end
-OrionLib:Init()
+ocal ArrayField = loadstring(game:HttpGet('https://raw.githubusercontent.com/UI-Interface/ArrayField/main/Source.lua'))()
+local Window = ArrayField:CreateWindow({
+   Name = "ArrayField Example Window",
+   LoadingTitle = "ArrayField Interface Suite",
+   LoadingSubtitle = "by Arrays",
+   ConfigurationSaving = {
+      Enabled = true,
+      FolderName = nil, -- Create a custom folder for your hub/game
+      FileName = "ArrayField"
+   }}),
