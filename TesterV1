@@ -1,44 +1,48 @@
-local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/shlexware/Orion/main/source"))()
+local Rayfield = loadstring(game:HttpGet("https://raw.githubusercontent.com/shlexware/Rayfield/main/source"))()
 
-local Window = OrionLib:MakeWindow({
+local Window = Rayfield:CreateWindow({
     Name = "Script Universel",
-    HidePremium = false,
-    SaveConfig = true,
-    ConfigFolder = "UniversalOrionScript"
+    LoadingTitle = "Chargement...",
+    LoadingSubtitle = "par ton scripteur favori",
+    ConfigurationSaving = {
+        Enabled = true,
+        FolderName = "UniversalRayfieldScript",
+        FileName = "Settings"
+    },
+    Discord = {
+        Enabled = false,
+        Invite = "",
+        RememberJoins = false
+    },
+    KeySystem = false
 })
 
-local Tab = Window:MakeTab({
-    Name = "Main",
-    Icon = "rbxassetid://4483345998",
-    PremiumOnly = false
-})
+local MainTab = Window:CreateTab("Main", 4483362458) -- Icône Roblox par défaut
 
-Tab:AddButton({
-    Name = "Exemple de fonction",
+MainTab:CreateButton({
+    Name = "Exemple de bouton",
     Callback = function()
         print("Bouton cliqué !")
-    end
+    end,
 })
 
-Tab:AddToggle({
+MainTab:CreateToggle({
     Name = "Auto Farm",
-    Default = false,
+    CurrentValue = false,
     Callback = function(Value)
         getgenv().AutoFarm = Value
         while AutoFarm do
             task.wait(1)
             print("Auto Farm en cours...")
         end
-    end    
+    end,
 })
 
-Tab:AddTextbox({
+MainTab:CreateInput({
     Name = "Nom du joueur",
-    Default = "",
-    TextDisappear = true,
-    Callback = function(Value)
-        print("Nom saisi : " .. Value)
-    end
+    PlaceholderText = "Entre un pseudo ici",
+    RemoveTextAfterFocusLost = true,
+    Callback = function(Text)
+        print("Nom saisi : " .. Text)
+    end,
 })
-
-OrionLib:Init()
