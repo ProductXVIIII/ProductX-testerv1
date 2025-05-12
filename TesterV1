@@ -1,48 +1,50 @@
-local Rayfield = loadstring(game:HttpGet("https://raw.githubusercontent.com/shlexware/Rayfield/main/source"))()
+-- Chargement de BaconLib depuis GitHub
+local lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/bacon"))()
 
-local Window = Rayfield:CreateWindow({
-    Name = "Script Universel",
-    LoadingTitle = "Chargement...",
-    LoadingSubtitle = "par ton scripteur favori",
-    ConfigurationSaving = {
-        Enabled = true,
-        FolderName = "UniversalRayfieldScript",
-        FileName = "Settings"
-    },
-    Discord = {
-        Enabled = false,
-        Invite = "",
-        RememberJoins = false
-    },
-    KeySystem = false
-})
+-- Récupération des informations de la bibliothèque
+local version, changelog = lib:GetInfo()
 
-local MainTab = Window:CreateTab("Main", 4483362458) -- Icône Roblox par défaut
+-- Création de la fenêtre principale
+local window = lib:CreateWindow("BaconLib v" .. version)
 
-MainTab:CreateButton({
-    Name = "Exemple de bouton",
-    Callback = function()
-        print("Bouton cliqué !")
-    end,
-})
+-- Ajout d'un label
+local label = lib:CreateLabel(window, "Interface Principale")
 
-MainTab:CreateToggle({
-    Name = "Auto Farm",
-    CurrentValue = false,
-    Callback = function(Value)
-        getgenv().AutoFarm = Value
-        while AutoFarm do
-            task.wait(1)
-            print("Auto Farm en cours...")
-        end
-    end,
-})
+-- Ajout d'un champ de texte
+local textBox = lib:CreateTextBox(window, Enum.Font.Legacy, "Texte", "Bonjour, Monde!")
 
-MainTab:CreateInput({
-    Name = "Nom du joueur",
-    PlaceholderText = "Entre un pseudo ici",
-    RemoveTextAfterFocusLost = true,
-    Callback = function(Text)
-        print("Nom saisi : " .. Text)
-    end,
-})
+-- Ajout d'un bouton qui affiche le texte saisi
+local button = lib:CreateButton(window, "Afficher le Texte", function()
+    print(textBox.Text)
+end)
+
+-- Ajout d'une bascule qui affiche "Bonjour" en boucle lorsqu'elle est activée
+local toggled = false
+local toggle = lib:CreateToggle(window, "Afficher 'Bonjour' en boucle", false, function(toggleState)
+    toggled = toggleState
+    while toggled and game:GetService('RunService').Heartbeat:Wait() do
+        warn("Bonjour")
+    end
+end)
+
+-- Ajout d'un menu déroulant avec des options
+local drop = lib:CreateDropdown(window, "Options")
+lib:NewDropdownButton(window, drop, "Afficher 'LOL'", function()
+    print("LOL")
+end)
+lib:NewDropdownButton(window, drop, "Afficher 'OUI'", function()
+    print("OUI")
+end)
+lib:NewDropdownButton(window, drop, "Avertir 'XD'", function()
+    warn("XD")
+end)
+
+-- Ajout d'un curseur qui affiche la valeur sélectionnée
+local slider = lib:CreateSlider(window, "Afficher la Valeur", 0, 100, 50, function(value)
+    print(value)
+end)
+
+-- Ajout d'un raccourci clavier qui affiche la touche pressée
+local keybind = lib:CreateKeyBind(window, "Afficher la Touche", "z", function(key)
+    print(key)
+end)
