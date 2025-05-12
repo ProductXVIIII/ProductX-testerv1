@@ -1,10 +1,44 @@
-ocal ArrayField = loadstring(game:HttpGet('https://raw.githubusercontent.com/UI-Interface/ArrayField/main/Source.lua'))()
-local Window = ArrayField:CreateWindow({
-   Name = "ArrayField Example Window",
-   LoadingTitle = "ArrayField Interface Suite",
-   LoadingSubtitle = "by Arrays",
-   ConfigurationSaving = {
-      Enabled = true,
-      FolderName = nil, -- Create a custom folder for your hub/game
-      FileName = "ArrayField"
-   }}),
+local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/shlexware/Orion/main/source"))()
+
+local Window = OrionLib:MakeWindow({
+    Name = "Script Universel",
+    HidePremium = false,
+    SaveConfig = true,
+    ConfigFolder = "UniversalOrionScript"
+})
+
+local Tab = Window:MakeTab({
+    Name = "Main",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+Tab:AddButton({
+    Name = "Exemple de fonction",
+    Callback = function()
+        print("Bouton cliqué !")
+    end
+})
+
+Tab:AddToggle({
+    Name = "Auto Farm",
+    Default = false,
+    Callback = function(Value)
+        getgenv().AutoFarm = Value
+        while AutoFarm do
+            task.wait(1)
+            print("Auto Farm en cours...")
+        end
+    end    
+})
+
+Tab:AddTextbox({
+    Name = "Nom du joueur",
+    Default = "",
+    TextDisappear = true,
+    Callback = function(Value)
+        print("Nom saisi : " .. Value)
+    end
+})
+
+OrionLib:Init()
